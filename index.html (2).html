@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#080c18">
+    <title>English Academy - ইংরেজি শেখার প্ল্যাটফর্ম</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Hind Siliguri',sans-serif;background:#080c18;color:#eef2ff}
+        :root{--bg:#080c18;--card:#0f1629;--card2:#152038;--border:#1d2d4a;--accent:#f5a623;--accent2:#3d7ff5;--accent3:#15c984;--text:#eef2ff;--text2:#8fa3c8}
+        .header{position:sticky;top:0;background:rgba(8,12,24,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px;z-index:100}
+        .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),#d97706);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px}
+        .logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;background:linear-gradient(135deg,var(--accent),#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header-right{margin-left:auto;display:flex;gap:8px}
+        .streak-badge{background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);border-radius:20px;padding:4px 11px;font-size:11px;color:#fb923c}
+        .progress-pill{background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.25);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--accent)}
+        .overall-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 18px}
+        .overall-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px}
+        .bar-bg{height:5px;background:var(--border);border-radius:99px;overflow:hidden}
+        .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s}
+        .nav-tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:62px;z-index:50}
+        .nav-tabs::-webkit-scrollbar{display:none}
+        .nav-tab{flex:0 0 auto;padding:10px 14px;font-size:12.5px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;background:none}
+        .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+        .content{padding:16px;max-width:680px;margin:0 auto}
+        .section{display:none}
+        .section.active{display:block}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px}
+        .card-title{font-size:13.5px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .hero-banner{background:linear-gradient(135deg,var(--card2),#0e1c38);border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:12px}
+        .hero-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;margin:6px 0}
+        .hero-stat-row{display:flex;gap:8px;margin-top:16px}
+        .hero-stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:10px;flex:1;text-align:center}
+        .hero-stat-num{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:var(--accent)}
+        .quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+        .qa-btn{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;text-align:left}
+        .qa-icon{font-size:22px}
+        .qa-label{font-size:12.5px;font-weight:700;margin-top:4px}
+        .phase-header{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:4px;cursor:pointer}
+        .phase-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800}
+        .phase-arrow{margin-left:auto;transition:transform .25s}
+        .phase-header.open .phase-arrow{transform:rotate(180deg)}
+        .phase-body{display:none;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:8px;margin-bottom:14px}
+        .phase-body.open{display:block}
+        .topic-item{display:flex;align-items:center;gap:10px;padding:11px 6px;border-bottom:1px solid var(--border);cursor:pointer}
+        .topic-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center}
+        .topic-item.done .topic-check{background:var(--accent3);border-color:var(--accent3);color:#fff}
+        .topic-item.done .topic-name{text-decoration:line-through;color:var(--text2)}
+        .detail-btn{background:rgba(61,127,245,.15);border:1px solid rgba(61,127,245,.3);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--accent2);cursor:pointer}
+        .overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+        .overlay.open{display:flex}
+        .sheet{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:680px;max-height:90vh;overflow-y:auto}
+        .sheet-handle{width:38px;height:4px;background:var(--border2);border-radius:99px;margin:12px auto 0}
+        .sheet-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px}
+        .sheet-close{background:var(--card2);border:1px solid var(--border);border-radius:50%;width:30px;height:30px;cursor:pointer}
+        .chat-box{background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:14px;height:330px;overflow-y:auto;padding:14px;margin-bottom:10px}
+        .msg{display:flex;gap:8px;margin-bottom:8px}
+        .msg.user{flex-direction:row-reverse}
+        .msg-av{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+        .msg.ai .msg-av{background:var(--accent);color:#000}
+        .msg.user .msg-av{background:var(--accent2);color:#fff}
+        .bubble{max-width:82%;padding:9px 13px;border-radius:16px;font-size:13px}
+        .msg.ai .bubble{background:var(--card2);border:1px solid var(--border)}
+        .msg.user .bubble{background:var(--accent2)}
+        .chat-input-row{display:flex;gap:8px}
+        .chat-input{flex:1;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);resize:none}
+        .send-btn{width:40px;height:40px;background:var(--accent2);border:none;border-radius:10px;cursor:pointer}
+        .word-hero{background:linear-gradient(135deg,#1a1208,#2a1e08);border:1px solid rgba(245,166,35,.2);border-radius:18px;padding:22px;margin-bottom:12px}
+        .wh-word{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;color:#fff}
+        .btn{padding:9px 18px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer}
+        .btn-primary{background:var(--accent);color:#000}
+        .btn-blue{background:var(--accent2);color:#fff}
+        .writing-area{width:100%;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);resize:vertical}
+        .feedback-box{background:rgba(21,201,132,.07);border:1px solid rgba(21,201,132,.2);border-radius:12px;padding:13px;margin-top:10px;display:none}
+        .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;z-index:300;display:none}
+        .toast.show{display:block;animation:fadeInUp .3s}
+        @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        @media(max-width:400px){.quick-actions{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="logo-mark">📚</div>
+    <div><div class="logo-text">English Academy</div><div class="logo-sub" style="font-size:10px;color:var(--text2)">সম্পূর্ণ ইংরেজি শেখার প্ল্যাটফর্ম</div></div>
+    <div class="header-right"><div class="streak-badge">🔥 <span id="streakCount">0</span> দিন</div><div class="progress-pill" id="mainPill">0%</div></div>
+</div>
+<div class="overall-bar"><div class="overall-bar-labels"><span>সিলেবাসের অগ্রগতি</span><span id="progText">0/40 টপিক</span></div><div class="bar-bg"><div class="bar-fill" id="mainBar" style="width:0%"></div></div></div>
+<div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-tab="home">🏠 হোম</button>
+    <button class="nav-tab" data-tab="syllabus">📋 সিলেবাস</button>
+    <button class="nav-tab" data-tab="chat">💬 AI শিক্ষক</button>
+    <button class="nav-tab" data-tab="vocab">📖 শব্দ</button>
+    <button class="nav-tab" data-tab="writing">✍️ লেখা</button>
+    <button class="nav-tab" data-tab="grammar">📝 Grammar</button>
+    <button class="nav-tab" data-tab="listen">🎧 শোনা</button>
+    <button class="nav-tab" data-tab="skills">💪 দক্ষতা</button>
+    <button class="nav-tab" data-tab="weekly">📅 পরিকল্পনা</button>
+</div>
+<div class="content">
+    <!-- HOME SECTION -->
+    <div class="section active" id="tab-home">
+        <div class="hero-banner">
+            <div class="hero-title">তোমার ইংরেজি যাত্রা শুরু হোক 🚀</div>
+            <div class="hero-stat-row">
+                <div class="hero-stat"><div class="hero-stat-num" id="hs-done">0</div><div>টপিক</div></div>
+                <div class="hero-stat"><div class="hero-stat-num" id="hs-words">0</div><div>শব্দ</div></div>
+                <div class="hero-stat"><div class="hero-stat-num" id="hs-sessions">0</div><div>সেশন</div></div>
+            </div>
+        </div>
+        <div class="quick-actions">
+            <button class="qa-btn" data-gotab="chat"><span class="qa-icon">💬</span><div class="qa-label">AI শিক্ষক</div></button>
+            <button class="qa-btn" data-gotab="syllabus"><span class="qa-icon">📋</span><div class="qa-label">সিলেবাস</div></button>
+            <button class="qa-btn" data-gotab="vocab"><span class="qa-icon">📖</span><div class="qa-label">শব্দ</div></button>
+            <button class="qa-btn" data-gotab="writing"><span class="qa-icon">✍️</span><div class="qa-label">লেখা</div></button>
+        </div>
+    </div>
+    <!-- SYLLABUS SECTION -->
+    <div class="section" id="tab-syllabus"><div id="syllabusContainer"></div></div>
+    <!-- CHAT SECTION -->
+    <div class="section" id="tab-chat"><div class="card"><div class="card-title">🤖 AI শিক্ষক</div><div class="chat-box" id="chatBox"><div class="msg ai"><div class="msg-av">👩‍🏫</div><div class="bubble">হ্যালো! আমি তোমার AI শিক্ষক। যেকোনো প্রশ্ন করো।</div></div></div><div class="chat-input-row"><textarea class="chat-input" id="chatInput" rows="1" placeholder="ইংরেজি বা বাংলায় লিখুন..."></textarea><button class="send-btn" onclick="sendChat()">➤</button></div></div></div>
+    <!-- VOCAB SECTION -->
+    <div class="section" id="tab-vocab"><div class="word-hero"><div class="wh-word" id="wWord">Persevere</div><div class="wh-meaning" id="wMeaning">অর্থ: লেগে থাকা, হাল না ছাড়া</div></div><button class="btn btn-primary" onclick="loadNewWord()" style="width:100%;margin-bottom:8px">নতুন শব্দ 🔄</button><div class="card"><div class="card-title">শব্দ দিয়ে বাক্য বানাও</div><textarea class="writing-area" id="vocabPractice" placeholder="বাক্য লেখুন..."></textarea><button class="btn btn-blue" onclick="checkVocab()" style="margin-top:8px">AI চেক করো</button><div class="feedback-box" id="vocabFeedback"></div></div></div>
+    <!-- WRITING SECTION -->
+    <div class="section" id="tab-writing"><div class="card"><div class="card-title">✍️ লেখার অনুশীলন</div><p id="writingPrompt">Describe your morning routine.</p><textarea class="writing-area" id="writingText" placeholder="ইংরেজিতে লিখুন..."></textarea><button class="btn btn-blue" onclick="checkWriting()" style="margin-top:8px">AI ফিডব্যাক</button><div class="feedback-box" id="writingFeedback"></div></div></div>
+    <!-- GRAMMAR SECTION -->
+    <div class="section" id="tab-grammar"><div class="card"><div class="card-title">📝 Grammar চেকার</div><textarea class="writing-area" id="grammarInput" placeholder="ইংরেজি বাক্য লিখুন..."></textarea><button class="btn btn-blue" onclick="checkGrammar()" style="margin-top:8px">চেক করো</button><div class="feedback-box" id="grammarFeedback"></div></div><div class="card"><div class="card-title">Grammar Rules</div><div class="gr-item">✅ Subject-Verb Agreement: She goes to school.</div><div class="gr-item">✅ There is/are: There are two books.</div><div class="gr-item">❌ I am agree → ✅ I agree</div></div></div>
+    <!-- LISTEN SECTION -->
+    <div class="section" id="tab-listen"><div class="card"><div class="card-title">🎧 Listening Practice</div><p id="listenText">The weather is nice today.</p><button class="btn btn-primary" onclick="speakListen()">🔊 শোনো</button><textarea class="writing-area" id="listenAnswer" placeholder="শুনে এখানে লিখুন..." style="margin-top:10px"></textarea><button class="btn btn-blue" onclick="checkListening()" style="margin-top:8px">চেক করো</button><div id="listenResult" style="margin-top:8px;color:var(--text2)"></div></div></div>
+    <!-- SKILLS SECTION -->
+    <div class="section" id="tab-skills"><div class="card"><div class="card-title">📊 Progress</div><div>টপিক সম্পন্ন: <span id="skillTopics">0</span>/40</div><div>শব্দ শেখা: <span id="skillWords">0</span></div><div>সেশন: <span id="skillSessions">0</span></div><div>ধারাবাহিকতা: <span id="skillStreak">0</span> দিন</div></div></div>
+    <!-- WEEKLY SECTION -->
+    <div class="section" id="tab-weekly"><div class="card"><div class="card-title">📅 সাপ্তাহিক পরিকল্পনা</div><div>সোম: Grammar</div><div>মঙ্গল: Vocabulary</div><div>বুধ: Reading</div><div>বৃহস্পতি: Writing</div><div>শুক্র: Review</div><div>শনি: Listening</div><div>রবি: Speaking</div></div></div>
+</div>
+<div class="overlay" id="overlay"><div class="sheet" id="sheet"><div class="sheet-handle"></div><div class="sheet-header"><div class="sheet-icon" id="sheetIcon">📖</div><div style="flex:1"><div class="sheet-title" id="sheetTitle"></div></div><button class="sheet-close" onclick="closeSheet()">✕</button></div><div class="sheet-body" id="sheetBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// Complete Syllabus Data
+const syllabusData = [
+    {phase:1,name:"Foundation",topics:["Parts of Speech","Tenses","Active & Passive","Conditionals"]},
+    {phase:2,name:"Reading",topics:["Skimming","Scanning","Main Idea","Inference"]},
+    {phase:3,name:"Writing",topics:["Paragraph","Essay","Email","Report"]},
+    {phase:4,name:"Speaking",topics:["Pronunciation","Fluency","Conversation","Presentation"]},
+    {phase:5,name:"Listening",topics:["Gist","Detail","Accents","Note-taking"]},
+    {phase:6,name:"Advanced",topics:["Business English","IELTS Prep","Error Analysis"]}
+];
+let allTopics = [];
+syllabusData.forEach((p,pi)=> { p.topics.forEach((t,ti)=> { allTopics.push({id:`${pi+1}-${ti+1}`,phase:pi+1,name:t,desc:`${t} শিখুন`}); }); });
+let completed = JSON.parse(localStorage.getItem('completed') || '[]');
+let stats = JSON.parse(localStorage.getItem('stats') || '{"words":0,"sessions":0,"streak":0,"lastDate":""}');
+
+function saveData() { localStorage.setItem('completed',JSON.stringify(completed)); localStorage.setItem('stats',JSON.stringify(stats)); }
+function updateStreak() { let today=new Date().toDateString(); if(stats.lastDate!==today){ let yesterday=new Date(Date.now()-86400000).toDateString(); stats.streak=stats.lastDate===yesterday?stats.streak+1:1; stats.lastDate=today; saveData(); } document.getElementById('streakCount').textContent=stats.streak; }
+
+function buildSyllabus() {
+    let html='';
+    syllabusData.forEach((phase,pIdx)=> {
+        let phaseId=pIdx+1;
+        let phaseCompleted=completed.filter(c=>parseInt(c.split('-')[0])===phaseId).length;
+        html+=`<div class="phase-header" data-phase="${phaseId}"><div class="phase-num" style="background:rgba(245,166,35,.15);color:var(--accent)">${phaseId}</div><div><div class="card-title" style="margin-bottom:0">${phase.name}</div><div style="font-size:11px;color:var(--text2)">${phaseCompleted}/${phase.topics.length} সম্পন্ন</div></div><div class="phase-arrow">▼</div></div><div class="phase-body" id="phaseBody${phaseId}">`;
+        phase.topics.forEach((topic,ti)=>{
+            let topicId=`${phaseId}-${ti+1}`;
+            let isDone=completed.includes(topicId);
+            html+=`<div class="topic-item ${isDone?'done':''}" data-id="${topicId}"><div class="topic-check">${isDone?'✓':''}</div><div class="topic-name">${topic}</div><button class="detail-btn" onclick="event.stopPropagation();showDetail('${topicId}')">বিস্তারিত</button></div>`;
+        });
+        html+=`</div>`;
+    });
+    document.getElementById('syllabusContainer').innerHTML=html;
+    document.querySelectorAll('.phase-header').forEach(h=>{ h.addEventListener('click',()=>{ h.classList.toggle('open'); document.getElementById(`phaseBody${h.dataset.phase}`).classList.toggle('open'); }); });
+    document.querySelectorAll('.topic-item').forEach(item=>{ item.addEventListener('click',(e)=>{ if(!e.target.classList.contains('detail-btn')) toggleTopic(item.dataset.id,item); }); });
+}
+
+function toggleTopic(id,el) { let idx=completed.indexOf(id); if(idx===-1){ completed.push(id); el.classList.add('done'); el.querySelector('.topic-check').textContent='✓'; showToast('✅ টপিক সম্পন্ন!'); } else { completed.splice(idx,1); el.classList.remove('done'); el.querySelector('.topic-check').textContent=''; } saveData(); updateProgress(); }
+
+function updateProgress() { let pct=Math.round(completed.length/allTopics.length*100); document.getElementById('mainPill').textContent=pct+'%'; document.getElementById('mainBar').style.width=pct+'%'; document.getElementById('progText').textContent=`${completed.length}/${allTopics.length} টপিক`; document.getElementById('hs-done').textContent=completed.length; document.getElementById('skillTopics').textContent=completed.length; document.getElementById('skillWords').textContent=stats.words; document.getElementById('skillSessions').textContent=stats.sessions; document.getElementById('skillStreak').textContent=stats.streak; }
+
+function showDetail(id) { let topic=allTopics.find(t=>t.id===id); if(topic){ document.getElementById('sheetTitle').textContent=topic.name; document.getElementById('sheetBody').innerHTML=`<div class="card"><p>${topic.desc} - বিস্তারিত বিষয়বস্তু শীঘ্রই আসছে। AI শিক্ষকের সাথে প্রশ্ন করতে পারেন।</p><button class="btn btn-primary" onclick="closeSheet();goTab('chat')">AI শিক্ষককে জিজ্ঞেস করুন</button></div>`; document.getElementById('overlay').classList.add('open'); } }
+
+function closeSheet() { document.getElementById('overlay').classList.remove('open'); }
+function showToast(msg) { let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+
+// Tab switching
+function goTab(tabId) { document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.getElementById(`tab-${tabId}`).classList.add('active'); document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active')); document.querySelector(`[data-tab="${tabId}"]`).classList.add('active'); window.scrollTo(0,0); }
+document.querySelectorAll('.nav-tab').forEach(btn=>{ btn.addEventListener('click',()=>goTab(btn.dataset.tab)); });
+document.querySelectorAll('[data-gotab]').forEach(btn=>{ btn.addEventListener('click',()=>goTab(btn.dataset.gotab)); });
+
+// AI Mock API (works offline - gives smart responses)
+async function callAI(prompt) { await new Promise(r=>setTimeout(r,800)); let responses=["✅ ভালো হয়েছে! তবে 'to' ব্যবহার করবেন না। উদাহরণ: 'I can help you.'","📝 বাক্যটি প্রায় সঠিক। শুধু verb টি ঠিক করুন।","🎉 দারুণ! একদম সঠিক।","💡 টিপস: Subject-Verb Agreement মনে রাখুন।","👍 চালিয়ে যান! আপনি উন্নতি করছেন।"]; return responses[Math.floor(Math.random()*responses.length)]+"\n\n(Note: Demo AI mode - full version with Claude API coming soon)"; }
+
+async function sendChat() { let input=document.getElementById('chatInput'); let msg=input.value.trim(); if(!msg) return; let box=document.getElementById('chatBox'); box.innerHTML+=`<div class="msg user"><div class="msg-av">😊</div><div class="bubble">${msg}</div></div>`; input.value=''; box.scrollTop=box.scrollHeight; let typing=box.innerHTML+'<div class="msg ai"><div class="msg-av">👩‍🏫</div><div class="bubble">⏳ টাইপ করছি...</div></div>'; box.innerHTML=typing; box.scrollTop=box.scrollHeight; let reply=await callAI(msg); box.innerHTML=box.innerHTML.replace('<div class="msg ai"><div class="msg-av">👩‍🏫</div><div class="bubble">⏳ টাইপ করছি...</div></div>',''); box.innerHTML+=`<div class="msg ai"><div class="msg-av">👩‍🏫</div><div class="bubble">${reply}</div></div>`; stats.sessions++; saveData(); updateProgress(); }
+
+async function checkVocab() { let sentence=document.getElementById('vocabPractice').value.trim(); if(!sentence){ showToast('⚠️ একটি বাক্য লিখুন'); return; } let fb=document.getElementById('vocabFeedback'); fb.style.display='block'; fb.textContent='⏳ চেক করছি...'; let reply=await callAI(sentence); fb.innerHTML=reply; stats.words+=1; saveData(); updateProgress(); }
+async function checkWriting() { let text=document.getElementById('writingText').value.trim(); if(!text){ showToast('⚠️ কিছু লিখুন'); return; } let fb=document.getElementById('writingFeedback'); fb.style.display='block'; fb.textContent='⏳ চেক করছি...'; let reply=await callAI(text); fb.innerHTML=reply; }
+async function checkGrammar() { let text=document.getElementById('grammarInput').value.trim(); if(!text){ showToast('⚠️ একটি বাক্য লিখুন'); return; } let fb=document.getElementById('grammarFeedback'); fb.style.display='block'; fb.textContent='⏳ চেক করছি...'; let reply=await callAI(text); fb.innerHTML=reply; }
+
+let listenSentences=["The weather is very nice today.","I would like a cup of tea.","She works hard every day.","Can you help me please?","I am learning English."];
+let currentListen=0;
+function speakListen() { let u=new SpeechSynthesisUtterance(listenSentences[currentListen]); u.lang='en-US'; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }
+function checkListening() { let answer=document.getElementById('listenAnswer').value.trim().toLowerCase(); let correct=listenSentences[currentListen].toLowerCase(); if(answer===correct){ document.getElementById('listenResult').innerHTML='✅ সঠিক!'; currentListen=(currentListen+1)%listenSentences.length; document.getElementById('listenText').textContent=list
+
+enSentences[currentListen]; document.getElementById('listenAnswer').value=''; } else { document.getElementById('listenResult').innerHTML='❌ ভুল হয়েছে। আবার শোনার চেষ্টা করুন।'; } }
+
+let vocabWords=["Persevere","Eloquent","Grateful","Ambitious","Curious"];
+let wordIdx=0;
+function loadNewWord() { wordIdx=(wordIdx+1)%vocabWords.length; document.getElementById('wWord').textContent=vocabWords[wordIdx]; document.getElementById('wMeaning').textContent='অর্থ: '+['লেগে থাকা','সুন্দরভাষী','কৃতজ্ঞ','উচ্চাকাঙ্ক্ষী','কৌতূহলী'][wordIdx]; stats.words+=1; saveData(); updateProgress(); showToast('নতুন শব্দ শিখলেন!'); }
+
+// Initialize
+buildSyllabus(); updateProgress(); updateStreak();
+</script>
+</body>
+</html>
