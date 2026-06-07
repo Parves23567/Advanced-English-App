@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080c18">
+<title>English Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c18;--card:#0f1629;--card2:#152038;--border:#1d2d4a;
+  --accent:#f5a623;--a2:#3d7ff5;--a3:#15c984;--a4:#ec4899;
+  --text:#eef2ff;--text2:#8fa3c8;--muted:#3d5275;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 15% 10%,rgba(245,166,35,.06) 0%,transparent 55%),radial-gradient(ellipse 50% 35% at 85% 85%,rgba(61,127,245,.06) 0%,transparent 55%);pointer-events:none;z-index:0}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:rgba(8,12,24,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:12px 18px env(safe-area-inset-top);display:flex;align-items:center;gap:12px}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),#d97706);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;box-shadow:0 4px 14px rgba(245,166,35,.25)}
+.logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;background:linear-gradient(135deg,var(--accent),#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;color:var(--text2)}
+.hdr-right{margin-left:auto;display:flex;gap:6px;align-items:center}
+.streak-badge{background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);border-radius:20px;padding:4px 11px;font-size:11px;color:#fb923c;font-weight:600}
+.prog-pill{background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.25);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--accent);font-weight:600}
+
+/* PROGRESS BAR */
+.prog-bar-wrap{background:var(--card);border-bottom:1px solid var(--border);padding:9px 18px;position:sticky;top:62px;z-index:90}
+.prog-labels{display:flex;justify-content:space-between;font-size:10.5px;color:var(--text2);margin-bottom:5px}
+.bar-bg{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--a2));border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* NAV */
+.nav{display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:100px;z-index:80}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex:0 0 auto;padding:10px 13px;font-size:12px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Hind Siliguri',sans-serif;white-space:nowrap;transition:color .2s,border-color .2s}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+
+/* CONTENT */
+.content{padding:14px 16px 100px;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.section{display:none;animation:fadeUp .25s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;transition:border-color .2s}
+.card-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--text)}
+
+/* HOME */
+.hero{background:linear-gradient(135deg,var(--card2),#0e1c38);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(245,166,35,.12),transparent 70%);pointer-events:none}
+.hero-greeting{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.hero-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:800;margin:5px 0 14px;line-height:1.25}
+.stat-row{display:flex;gap:8px}
+.stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:10px;flex:1;text-align:center;transition:background .2s}
+.stat-num{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:var(--accent)}
+.stat-label{font-size:10px;color:var(--text2);margin-top:2px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.qa{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;text-align:left;transition:border-color .2s,transform .15s,background .2s;font-family:'Hind Siliguri',sans-serif}
+.qa:hover{border-color:var(--accent);background:var(--card2);transform:translateY(-1px)}
+.qa:active{transform:scale(.97)}
+.qa-icon{font-size:24px;display:block;margin-bottom:6px}
+.qa-label{font-size:13px;font-weight:700;display:block;margin-bottom:2px}
+.qa-desc{font-size:11px;color:var(--text2)}
+
+/* TODAY CARD */
+.today-card{background:linear-gradient(135deg,rgba(61,127,245,.1),rgba(21,201,132,.08));border:1px solid rgba(61,127,245,.2);border-radius:14px;padding:14px;margin-bottom:12px}
+.today-label{font-size:11px;color:var(--a2);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.today-task{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--text2);cursor:pointer;transition:color .2s}
+.today-task:last-child{border-bottom:none}
+.today-task:hover{color:var(--text)}
+.today-task::before{content:'▸';color:var(--accent);font-size:10px;flex-shrink:0}
+
+/* SYLLABUS */
+.phase-wrap{margin-bottom:10px}
+.phase-hdr{display:flex;align-items:center;gap:11px;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:13px 14px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
+.phase-hdr:hover{border-color:var(--accent)}
+.phase-hdr.open{border-radius:14px 14px 0 0;border-bottom-color:transparent}
+.phase-num{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;font-family:'Playfair Display',serif;flex-shrink:0}
+.phase-info{flex:1}
+.phase-name{font-size:14px;font-weight:700;margin-bottom:1px}
+.phase-prog{font-size:11px;color:var(--text2)}
+.phase-arrow{color:var(--muted);transition:transform .3s cubic-bezier(.4,0,.2,1);font-size:12px}
+.phase-hdr.open .phase-arrow{transform:rotate(180deg)}
+.phase-body{display:none;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;overflow:hidden}
+.phase-body.open{display:block;animation:slideDown .25s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.topic-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.topic-row:last-child{border-bottom:none}
+.topic-row:hover{background:rgba(245,166,35,.04)}
+.topic-row:active{background:rgba(245,166,35,.08)}
+.t-check{width:21px;height:21px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .2s}
+.topic-row.done .t-check{background:var(--a3);border-color:var(--a3);color:#fff}
+.topic-row.done .t-name{text-decoration:line-through;color:var(--text2)}
+.t-name{font-size:13px;font-weight:600;flex:1}
+.t-detail{background:rgba(61,127,245,.12);border:1px solid rgba(61,127,245,.25);border-radius:7px;padding:4px 9px;font-size:11px;color:var(--a2);cursor:pointer;font-family:'Hind Siliguri',sans-serif;flex-shrink:0;transition:background .2s}
+.t-detail:hover{background:rgba(61,127,245,.22)}
+
+/* CHAT */
+.chat-box{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:14px;height:360px;overflow-y:auto;padding:12px;margin-bottom:10px;scroll-behavior:smooth}
+.chat-box::-webkit-scrollbar{width:3px}
+.chat-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.msg{display:flex;gap:8px;margin-bottom:10px;animation:msgIn .2s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px}
+.msg.ai .msg-av{background:var(--accent);color:#000}
+.msg.user .msg-av{background:var(--a2);color:#fff}
+.bubble{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.6;word-break:break-word}
+.msg.ai .bubble{background:var(--card2);border:1px solid var(--border);border-top-left-radius:4px}
+.msg.user .bubble{background:var(--a2);color:#fff;border-top-right-radius:4px}
+.typing-dots{display:flex;gap:4px;padding:4px 0}
+.typing-dots span{width:7px;height:7px;background:var(--accent);border-radius:50%;opacity:.7;animation:bounce 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.sug-chip{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-size:11.5px;color:var(--text2);cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:all .2s;flex:0 0 auto}
+.sug-chip:hover{border-color:var(--accent);color:var(--accent)}
+
+.chat-input-row{display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:10px 13px;color:var(--text);resize:none;font-family:'Hind Siliguri',sans-serif;font-size:13.5px;max-height:100px;outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--a2)}
+.send-btn{width:40px;height:40px;background:var(--a2);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
+.send-btn:hover{background:#2d6fe0}
+.send-btn:active{transform:scale(.93)}
+.send-btn svg{width:16px;height:16px;fill:#fff}
+
+/* VOCAB */
+.word-hero{background:linear-gradient(135deg,#1a1208,#2a1e08);border:1px solid rgba(245,166,35,.2);border-radius:18px;padding:22px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+.word-hero::before{content:'"';position:absolute;right:14px;top:-10px;font-size:90px;font-family:'Playfair Display',serif;color:rgba(245,166,35,.08)}
+.wh-tag{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.wh-word{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;color:#fff;margin-bottom:3px}
+.wh-type{font-size:11px;color:rgba(255,255,255,.4);font-style:italic;margin-bottom:10px}
+.wh-meaning{font-size:14px;color:rgba(255,255,255,.8);margin-bottom:8px;line-height:1.6}
+.wh-example{font-size:12.5px;color:rgba(255,255,255,.5);font-style:italic;border-left:2px solid var(--accent);padding-left:10px;line-height:1.6}
+.wh-btns{display:flex;gap:8px;margin-top:14px}
+
+/* WRITING */
+.prompt-box{background:rgba(61,127,245,.07);border:1px solid rgba(61,127,245,.2);border-radius:11px;padding:13px 14px;margin-bottom:11px}
+.prompt-label{font-size:10px;color:var(--a2);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+.prompt-text{font-size:13.5px;color:#c8d8ff;font-weight:500;line-height:1.5}
+.writing-area{width:100%;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);resize:vertical;min-height:110px;font-family:'Hind Siliguri',sans-serif;font-size:13.5px;outline:none;transition:border-color .2s;line-height:1.6}
+.writing-area:focus{border-color:var(--a2)}
+.feedback-box{background:rgba(21,201,132,.06);border:1px solid rgba(21,201,132,.18);border-radius:12px;padding:13px;margin-top:10px;display:none;font-size:13px;line-height:1.7;color:var(--text2);animation:fadeUp .2s ease}
+.feedback-box.error{background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.2)}
+
+/* GRAMMAR */
+.gr-rule{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.gr-rule:last-child{border-bottom:none}
+.gr-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.gr-content{flex:1}
+.gr-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.gr-ex{background:var(--card2);border-radius:8px;padding:7px 10px;font-size:12.5px;margin-bottom:3px}
+.gr-ex.correct{border-left:3px solid var(--a3)}
+.gr-ex.wrong{border-left:3px solid #ef4444}
+.gr-note{font-size:11.5px;color:var(--text2)}
+
+/* LISTEN */
+.listen-hero{background:linear-gradient(135deg,#1a1238,#0f1e3a);border:1px solid rgba(61,127,245,.2);border-radius:18px;padding:20px;margin-bottom:12px}
+.listen-sentence{font-size:17px;font-weight:700;color:#fff;min-height:26px;margin-bottom:6px;line-height:1.4}
+.listen-hint{font-size:11.5px;color:rgba(255,255,255,.4);margin-bottom:14px}
+.listen-btns{display:flex;gap:8px;flex-wrap:wrap}
+.listen-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:8px 14px;color:#fff;font-size:12.5px;cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:background .2s}
+.listen-btn:hover{background:rgba(255,255,255,.15)}
+
+/* SKILLS */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.skill-card{background:var(--card2);border:1px solid var(--border);border-radius:13px;padding:13px}
+.sk-icon{font-size:22px;margin-bottom:7px}
+.sk-name{font-size:12.5px;font-weight:700;margin-bottom:3px}
+.sk-lvl{font-size:10.5px;color:var(--text2);margin-bottom:8px}
+.sk-bar{height:5px;background:var(--border);border-radius:99px;overflow:hidden}
+.sk-fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.sk-pct{font-size:11px;color:var(--text2);text-align:right;margin-top:4px}
+
+/* WEEKLY */
+.day-card{background:var(--card2);border:1px solid var(--border);border-radius:13px;margin-bottom:9px;overflow:hidden;transition:border-color .2s}
+.day-card.today{border-color:var(--accent)}
+.day-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px}
+.day-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.day-title{font-size:13.5px;font-weight:700}
+.day-time{font-size:11px;color:var(--text2)}
+.day-today-tag{margin-left:auto;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--accent);font-weight:600}
+.day-tasks{padding:0 14px 12px}
+.day-task{font-size:12.5px;color:var(--text2);padding:5px 0;border-bottom:1px dashed var(--border);display:flex;gap:8px;line-height:1.4}
+.day-task:last-child{border-bottom:none}
+.day-task::before{content:'▸';color:var(--accent);font-size:10px;margin-top:3px;flex-shrink:0}
+
+/* BUTTONS */
+.btn{padding:9px 18px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{background:#e09520}
+.btn-blue{background:var(--a2);color:#fff}
+.btn-blue:hover{background:#2d6fe0}
+.btn-ghost{background:var(--card2);border:1px solid var(--border);color:var(--text2)}
+.btn-ghost:hover{border-color:var(--text2);color:var(--text)}
+.btn-full{width:100%;justify-content:center}
+
+/* SHEET */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.overlay.open{display:flex;animation:overlayIn .2s ease}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.sheet{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;animation:sheetUp .3s cubic-bezier(.4,0,.2,1)}
+.sheet::-webkit-scrollbar{width:3px}
+.sheet::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+@keyframes sheetUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.sh-handle{width:36px;height:4px;background:var(--border);border-radius:99px;margin:12px auto 0}
+.sh-hdr{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.sh-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.sh-title{font-size:16px;font-weight:700;margin-bottom:2px}
+.sh-sub{font-size:11.5px;color:var(--text2)}
+.sh-close{margin-left:auto;background:var(--card2);border:1px solid var(--border);border-radius:50%;width:30px;height:30px;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:background .2s}
+.sh-close:hover{background:var(--border)}
+.sh-body{padding:16px 18px 50px}
+
+/* SHEET CONTENT */
+.sh-section{margin-bottom:18px}
+.sh-sec-title{font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh-sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.sh-text{font-size:13.5px;color:var(--text2);line-height:1.8;margin-bottom:8px}
+.sh-text strong{color:var(--text)}
+.example-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin:6px 0}
+.ex-en{color:var(--a2);font-size:13.5px;font-weight:600;margin-bottom:3px}
+.ex-bn{color:var(--text2);font-size:12px}
+.rule-list{background:rgba(245,166,35,.05);border:1px solid rgba(245,166,35,.15);border-radius:10px;padding:12px 14px}
+.rule-list p{font-size:13px;color:var(--text2);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6}
+.rule-list p:last-child{border-bottom:none;padding-bottom:0}
+
+/* TOPIC PRACTICE IN SHEET */
+.practice-label{font-size:12px;color:var(--a3);font-weight:600;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.ai-practice-box{background:rgba(21,201,132,.05);border:1px solid rgba(21,201,132,.15);border-radius:12px;padding:13px;margin-top:10px;display:none;font-size:13px;line-height:1.7;color:var(--text2);animation:fadeUp .2s ease}
+
+/* CONTEXT BANNER — AI + Syllabus bridge */
+.context-banner{background:linear-gradient(135deg,rgba(61,127,245,.1),rgba(21,201,132,.07));border:1px solid rgba(61,127,245,.2);border-radius:13px;padding:13px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
+.context-banner:hover{border-color:var(--a2)}
+.ctx-icon{width:38px;height:38px;background:rgba(61,127,245,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.ctx-text{flex:1}
+.ctx-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.ctx-sub{font-size:11.5px;color:var(--text2)}
+.ctx-arrow{color:var(--text2);font-size:14px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a2540;border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:30px;font-size:13px;z-index:500;opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(8,12,24,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0 env(safe-area-inset-bottom);z-index:90}
+.bnav-items{display:flex;justify-content:space-around}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 12px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:'Hind Siliguri',sans-serif;transition:color .2s;flex:1}
+.bnav-item.active{color:var(--accent)}
+.bnav-icon{font-size:18px;transition:transform .2s}
+.bnav-item.active .bnav-icon{transform:scale(1.15)}
+.bnav-label{font-size:9.5px;font-weight:600}
+@media(max-width:600px){.bottom-nav{display:block}.content{padding-bottom:130px}}
+@media(max-width:400px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-mark">📚</div>
+  <div>
+    <div class="logo-text">English Academy</div>
+    <div class="logo-sub">সম্পূর্ণ ইংরেজি শেখার প্ল্যাটফর্ম</div>
+  </div>
+  <div class="hdr-right">
+    <div class="streak-badge">🔥 <span id="streakCount">0</span> দিন</div>
+    <div class="prog-pill" id="mainPill">0%</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-bar-wrap">
+  <div class="prog-labels"><span>সিলেবাসের অগ্রগতি</span><span id="progText">0/40 টপিক</span></div>
+  <div class="bar-bg"><div class="bar-fill" id="mainBar" style="width:0%"></div></div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="navBar">
+  <button class="nav-btn active" data-tab="home">🏠 হোম</button>
+  <button class="nav-btn" data-tab="syllabus">📋 সিলেবাস</button>
+  <button class="nav-btn" data-tab="chat">💬 AI শিক্ষক</button>
+  <button class="nav-btn" data-tab="vocab">📖 শব্দ</button>
+  <button class="nav-btn" data-tab="writing">✍️ লেখা</button>
+  <button class="nav-btn" data-tab="grammar">📝 Grammar</button>
+  <button class="nav-btn" data-tab="listen">🎧 শোনা</button>
+  <button class="nav-btn" data-tab="skills">💪 দক্ষতা</button>
+  <button class="nav-btn" data-tab="weekly">📅 পরিকল্পনা</button>
+</div>
+
+<div class="content">
+
+<!-- HOME -->
+<div class="section active" id="tab-home">
+  <div class="hero">
+    <div class="hero-greeting">✨ স্বাগতম</div>
+    <div class="hero-title">তোমার ইংরেজি যাত্রা শুরু হোক 🚀</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num" id="hs-done">0</div><div class="stat-label">টপিক</div></div>
+      <div class="stat"><div class="stat-num" id="hs-words">0</div><div class="stat-label">শব্দ</div></div>
+      <div class="stat"><div class="stat-num" id="hs-sessions">0</div><div class="stat-label">সেশন</div></div>
+    </div>
+  </div>
+
+  <div class="context-banner" onclick="goTab('chat')">
+    <div class="ctx-icon">🤖</div>
+    <div class="ctx-text">
+      <div class="ctx-title">AI শিক্ষকের সাথে শুরু করো</div>
+      <div class="ctx-sub">সিলেবাস অনুযায়ী আজকের পাঠ নিয়ে কথা বলো</div>
+    </div>
+    <div class="ctx-arrow">›</div>
+  </div>
+
+  <div class="today-card">
+    <div class="today-label">📅 আজকের কাজ</div>
+    <div class="today-task" onclick="goTab('grammar')">Grammar — Parts of Speech অনুশীলন</div>
+    <div class="today-task" onclick="goTab('vocab')">Vocabulary — ৫টি নতুন শব্দ শেখো</div>
+    <div class="today-task" onclick="goTab('writing')">Writing — একটি Paragraph লেখো</div>
+    <div class="today-task" onclick="goTab('listen')">Listening — ৩টি বাক্য শুনে লেখো</div>
+  </div>
+
+  <div class="grid2">
+    <button class="qa" data-gotab="chat"><span class="qa-icon">💬</span><span class="qa-label">AI শিক্ষক</span><span class="qa-desc">যেকোনো প্রশ্ন করো</span></button>
+    <button class="qa" data-gotab="syllabus"><span class="qa-icon">📋</span><span class="qa-label">সিলেবাস</span><span class="qa-desc">৪০টি টপিক</span></button>
+    <button class="qa" data-gotab="vocab"><span class="qa-icon">📖</span><span class="qa-label">শব্দ শেখা</span><span class="qa-desc">প্রতিদিন নতুন শব্দ</span></button>
+    <button class="qa" data-gotab="writing"><span class="qa-icon">✍️</span><span class="qa-label">লেখা</span><span class="qa-desc">AI ফিডব্যাক</span></button>
+  </div>
+</div>
+
+<!-- SYLLABUS -->
+<div class="section" id="tab-syllabus">
+  <div class="context-banner" onclick="goTab('chat');suggestFromSyllabus()">
+    <div class="ctx-icon">💬</div>
+    <div class="ctx-text">
+      <div class="ctx-title">AI শিক্ষককে জিজ্ঞেস করো</div>
+      <div class="ctx-sub">যেকোনো টপিক বিস্তারিত বুঝতে চাইলে</div>
+    </div>
+    <div class="ctx-arrow">›</div>
+  </div>
+  <div id="syllabusContainer"></div>
+</div>
+
+<!-- CHAT -->
+<div class="section" id="tab-chat">
+  <div class="card">
+    <div class="card-title">🤖 AI ইংরেজি শিক্ষক</div>
+    <div class="chat-suggestions" id="chatSuggestions">
+      <div class="sug-chip" onclick="sendSuggestion('আজকের সিলেবাস থেকে কী শেখা উচিত?')">📋 আজকের পাঠ</div>
+      <div class="sug-chip" onclick="sendSuggestion('Grammar ভুল ধরিয়ে দাও')">📝 Grammar চেক</div>
+      <div class="sug-chip" onclick="sendSuggestion('আমার সাথে English এ কথা বলো')">🗣️ কথোপকথন</div>
+      <div class="sug-chip" onclick="sendSuggestion('Parts of Speech সহজে বোঝাও')">🔤 Parts of Speech</div>
+      <div class="sug-chip" onclick="sendSuggestion('Tense নিয়ে বিস্তারিত বলো')">⏰ Tenses</div>
+      <div class="sug-chip" onclick="sendSuggestion('কিছু useful phrases শেখাও')">💬 Phrases</div>
+    </div>
+    <div class="chat-box" id="chatBox">
+      <div class="msg ai">
+        <div class="msg-av">👩‍🏫</div>
+        <div class="bubble">হ্যালো! আমি তোমার AI ইংরেজি শিক্ষক। সিলেবাস অনুযায়ী পড়াশোনা, Grammar, Writing, Speaking — যেকোনো বিষয়ে সাহায্য করব। কী শিখতে চাও আজকে? 😊</div>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="বাংলায় বা ইংরেজিতে লেখো..."
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+      <button class="send-btn" onclick="sendChat()">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- VOCAB -->
+<div class="section" id="tab-vocab">
+  <div class="word-hero">
+    <div class="wh-tag">✨ আজকের শব্দ</div>
+    <div class="wh-word" id="wWord">Persevere</div>
+    <div class="wh-type" id="wType">verb</div>
+    <div class="wh-meaning" id="wMeaning">🇧🇩 লেগে থাকা, কঠিন পরিস্থিতিতেও হাল না ছাড়া</div>
+    <div class="wh-example" id="wExample">"She persevered through all difficulties and finally succeeded."</div>
+    <div class="wh-btns">
+      <button class="btn btn-primary" onclick="loadNewWord()">নতুন শব্দ 🔄</button>
+      <button class="btn btn-ghost" onclick="speakWord()">🔊 উচ্চারণ</button>
+      <button class="btn btn-ghost" onclick="askAIAboutWord()">🤖 AI-কে জিজ্ঞেস</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">✍️ শব্দ দিয়ে বাক্য বানাও</div>
+    <textarea class="writing-area" id="vocabPractice" rows="2" placeholder="এই শব্দ দিয়ে একটি বাক্য লেখো..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="checkVocab()">🤖 AI চেক করো</button>
+      <button class="btn btn-ghost" onclick="saveVocabPractice()">💾 সেভ করো</button>
+    </div>
+    <div class="feedback-box" id="vocabFeedback"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📚 বিষয় অনুযায়ী শব্দ</div>
+    <div class="chat-suggestions">
+      <div class="sug-chip" onclick="loadTopicVocab('daily routine')">🌅 Daily Routine</div>
+      <div class="sug-chip" onclick="loadTopicVocab('food')">🍚 Food</div>
+      <div class="sug-chip" onclick="loadTopicVocab('jobs and work')">💼 Jobs</div>
+      <div class="sug-chip" onclick="loadTopicVocab('travel')">✈️ Travel</div>
+      <div class="sug-chip" onclick="loadTopicVocab('emotions')">😊 Emotions</div>
+    </div>
+    <div id="topicVocabResult" style="margin-top:8px;font-size:13px;color:var(--text2);line-height:1.9"></div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div class="section" id="tab-writing">
+  <div class="card">
+    <div class="card-title">✍️ লেখার অনুশীলন</div>
+    <div class="prompt-box">
+      <div class="prompt-label">📌 আজকের বিষয়</div>
+      <div class="prompt-text" id="writingPrompt">Describe your morning routine in English.</div>
+    </div>
+    <textarea class="writing-area" id="writingText" rows="5" placeholder="ইংরেজিতে লেখো..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="checkWriting()">🤖 AI ফিডব্যাক</button>
+      <button class="btn btn-ghost" onclick="newWritingPrompt()">নতুন বিষয় 🔄</button>
+    </div>
+    <div class="feedback-box" id="writingFeedback"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔄 অনুবাদ অনুশীলন</div>
+    <div class="prompt-box">
+      <div class="prompt-label">🇧🇩 এটি ইংরেজিতে লেখো</div>
+      <div class="prompt-text" id="translatePrompt">আমি প্রতিদিন সকালে উঠে চা খাই এবং তারপর পড়তে বসি।</div>
+    </div>
+    <textarea class="writing-area" id="translateText" rows="3" placeholder="ইংরেজিতে অনুবাদ করো..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="checkTranslation()">🤖 চেক করো</button>
+      <button class="btn btn-ghost" onclick="newTranslate()">নতুন বাক্য 🔄</button>
+    </div>
+    <div class="feedback-box" id="translateFeedback"></div>
+  </div>
+</div>
+
+<!-- GRAMMAR -->
+<div class="section" id="tab-grammar">
+  <div class="card">
+    <div class="card-title">📝 Grammar চেকার</div>
+    <textarea class="writing-area" id="grammarInput" rows="3" placeholder="যেকোনো ইংরেজি বাক্য লেখো, ভুল ধরিয়ে দেব..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="checkGrammar()">🔍 Grammar চেক</button>
+      <button class="btn btn-ghost" onclick="explainGrammar()">💡 ব্যাখ্যা চাই</button>
+    </div>
+    <div class="feedback-box" id="grammarFeedback"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📖 গুরুত্বপূর্ণ নিয়ম</div>
+    <div class="gr-rule"><div class="gr-icon">🔤</div><div class="gr-content"><div class="gr-title">Subject-Verb Agreement</div><div class="gr-ex correct">✅ She <strong>goes</strong> to school every day.</div><div class="gr-ex wrong">❌ She <strong>go</strong> to school every day.</div><div class="gr-note">He/She/It-এর সাথে s/es যোগ হয়</div></div></div>
+    <div class="gr-rule"><div class="gr-icon">🔡</div><div class="gr-content"><div class="gr-title">a / an এর ব্যবহার</div><div class="gr-ex correct">✅ I have <strong>an</strong> umbrella and <strong>a</strong> bag.</div><div class="gr-note">স্বরধ্বনিতে 'an', ব্যঞ্জনধ্বনিতে 'a'</div></div></div>
+    <div class="gr-rule"><div class="gr-icon">⚠️</div><div class="gr-content"><div class="gr-title">সাধারণ ভুল</div><div class="gr-ex wrong">❌ I am agree.</div><div class="gr-ex correct">✅ I agree.</div><div class="gr-ex wrong">❌ He is play cricket.</div><div class="gr-ex correct">✅ He is playing cricket.</div></div></div>
+  </div>
+</div>
+
+<!-- LISTEN -->
+<div class="section" id="tab-listen">
+  <div class="listen-hero">
+    <div class="wh-tag">🎧 শোনার অনুশীলন</div>
+    <div class="listen-sentence" id="listenText">চাপো এবং শোনো 👆</div>
+    <div class="listen-hint">বাক্যটি শুনে নিচে টাইপ করো</div>
+    <div class="listen-btns">
+      <button class="listen-btn" onclick="speakListen()">▶️ শোনো</button>
+      <button class="listen-btn" onclick="speakSlow()">🐢 আস্তে</button>
+      <button class="listen-btn" onclick="nextListen()">🔄 নতুন</button>
+    </div>
+    <textarea class="writing-area" id="listenAnswer" rows="2" placeholder="শুনে এখানে লেখো..." style="margin-top:12px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)"></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="listen-btn" onclick="checkListening()">✓ চেক করো</button>
+      <button class="listen-btn" id="revealBtn" onclick="revealAnswer()" style="display:none">👁 দেখো</button>
+    </div>
+    <div id="listenResult" style="margin-top:10px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.6"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🗣️ Speaking অনুশীলন</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">নিচের বাক্যগুলো জোরে বলার চেষ্টা করো:</p>
+    <div class="gr-rule"><div class="gr-ex" style="flex:1">Good morning! How are you feeling today?</div><button class="btn btn-ghost" style="padding:6px 10px;font-size:12px" onclick="speak('Good morning! How are you feeling today?')">🔊</button></div>
+    <div class="gr-rule"><div class="gr-ex" style="flex:1">Could you please help me with this?</div><button class="btn btn-ghost" style="padding:6px 10px;font-size:12px" onclick="speak('Could you please help me with this?')">🔊</button></div>
+    <div class="gr-rule"><div class="gr-ex" style="flex:1">I would like to improve my English skills.</div><button class="btn btn-ghost" style="padding:6px 10px;font-size:12px" onclick="speak('I would like to improve my English skills.')">🔊</button></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="section" id="tab-skills">
+  <div class="skill-grid">
+    <div class="skill-card"><div class="sk-icon">📖</div><div class="sk-name">Reading</div><div class="sk-lvl">পড়ার দক্ষতা</div><div class="sk-bar"><div class="sk-fill" id="sk-reading" style="width:0%;background:var(--a2)"></div></div><div class="sk-pct" id="skp-reading">0%</div></div>
+    <div class="skill-card"><div class="sk-icon">✍️</div><div class="sk-name">Writing</div><div class="sk-lvl">লেখার দক্ষতা</div><div class="sk-bar"><div class="sk-fill" id="sk-writing" style="width:0%;background:var(--a3)"></div></div><div class="sk-pct" id="skp-writing">0%</div></div>
+    <div class="skill-card"><div class="sk-icon">🗣️</div><div class="sk-name">Speaking</div><div class="sk-lvl">বলার দক্ষতা</div><div class="sk-bar"><div class="sk-fill" id="sk-speaking" style="width:0%;background:var(--a4)"></div></div><div class="sk-pct" id="skp-speaking">0%</div></div>
+    <div class="skill-card"><div class="sk-icon">🎧</div><div class="sk-name">Listening</div><div class="sk-lvl">শোনার দক্ষতা</div><div class="sk-bar"><div class="sk-fill" id="sk-listening" style="width:0%;background:#8b5cf6"></div></div><div class="sk-pct" id="skp-listening">0%</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📊 মোট অগ্রগতি</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px">টপিক সম্পন্ন</div><div style="font-size:22px;font-family:'Playfair Display',serif;font-weight:800;color:var(--accent)" id="sk-topics">0/40</div></div>
+      <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px">শব্দ শেখা</div><div style="font-size:22px;font-family:'Playfair Display',serif;font-weight:800;color:var(--a2)" id="sk-words">0</div></div>
+      <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px">সেশন</div><div style="font-size:22px;font-family:'Playfair Display',serif;font-weight:800;color:var(--a3)" id="sk-sessions">0</div></div>
+      <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px">ধারাবাহিকতা</div><div style="font-size:22px;font-family:'Playfair Display',serif;font-weight:800;color:#fb923c" id="sk-streak">0 🔥</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">💡 আজকের টিপস</div>
+    <p style="font-size:13.5px;color:var(--text2);line-height:1.8">প্রতিদিন মাত্র <strong style="color:var(--text)">১৫-৩০ মিনিট</strong> অনুশীলন করলে ৩ মাসে তুমি নিজেই পার্থক্য অনুভব করবে। ধারাবাহিকতাই সাফল্যের চাবিকাঠি! 🔑</p>
+  </div>
+</div>
+
+<!-- WEEKLY -->
+<div class="section" id="tab-weekly">
+  <div id="weeklyContainer"></div>
+</div>
+
+</div><!-- end content -->
+
+<!-- BOTTOM SHEET -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet" id="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-hdr">
+      <div class="sh-icon" id="shIcon">📖</div>
+      <div style="flex:1">
+        <div class="sh-title" id="shTitle"></div>
+        <div class="sh-sub" id="shSub"></div>
+      </div>
+      <button class="sh-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sh-body" id="shBody"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="bnav-items">
+    <button class="bnav-item active" data-tab="home"><span class="bnav-icon">🏠</span><span class="bnav-label">হোম</span></button>
+    <button class="bnav-item" data-tab="syllabus"><span class="bnav-icon">📋</span><span class="bnav-label">সিলেবাস</span></button>
+    <button class="bnav-item" data-tab="chat"><span class="bnav-icon">💬</span><span class="bnav-label">AI শিক্ষক</span></button>
+    <button class="bnav-item" data-tab="vocab"><span class="bnav-icon">📖</span><span class="bnav-label">শব্দ</span></button>
+    <button class="bnav-item" data-tab="skills"><span class="bnav-icon">💪</span><span class="bnav-label">দক্ষতা</span></button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PHASES = [
+  {id:1,name:"Foundation",color:"#f5a623",bg:"rgba(245,166,35,.15)",topics:[
+    {name:"Parts of Speech",icon:"🔤",desc:"Noun, Verb, Adj, Adverb গভীরভাবে",skill:"grammar"},
+    {name:"All Tenses",icon:"⏰",desc:"১২টি Tense — গঠন ও ব্যবহার",skill:"grammar"},
+    {name:"Active & Passive Voice",icon:"🔄",desc:"Voice পরিবর্তনের নিয়ম",skill:"writing"},
+    {name:"Articles & Prepositions",icon:"🔡",desc:"a, an, the — সঠিক ব্যবহার",skill:"grammar"},
+    {name:"Punctuation",icon:"✏️",desc:"Professional লেখায় বিরামচিহ্ন",skill:"writing"},
+    {name:"Word Formation",icon:"🧩",desc:"Prefix, Suffix, Root Words",skill:"vocab"},
+    {name:"Sentence Structure",icon:"📝",desc:"Simple, Compound, Complex বাক্য",skill:"writing"},
+  ]},
+  {id:2,name:"Reading",color:"#3d7ff5",bg:"rgba(61,127,245,.15)",topics:[
+    {name:"Skimming & Scanning",icon:"👁️",desc:"দ্রুত পড়ার কৌশল",skill:"reading"},
+    {name:"Inferring Meaning",icon:"🔍",desc:"Context থেকে শব্দের অর্থ",skill:"reading"},
+    {name:"Critical Reading",icon:"🧠",desc:"Argument ও Opinion বিশ্লেষণ",skill:"reading"},
+    {name:"Newspapers & Articles",icon:"📰",desc:"Real English পড়ার অনুশীলন",skill:"reading"},
+    {name:"Idioms & Phrases",icon:"💬",desc:"১০০+ Common idioms",skill:"vocab"},
+    {name:"Cohesion & Coherence",icon:"🔗",desc:"Linking words ও প্রবাহ",skill:"writing"},
+    {name:"Vocabulary Building",icon:"📚",desc:"Academic শব্দভান্ডার",skill:"vocab"},
+  ]},
+  {id:3,name:"Writing",color:"#15c984",bg:"rgba(21,201,132,.15)",topics:[
+    {name:"Paragraph Writing",icon:"¶",desc:"Topic sentence, Supporting details",skill:"writing"},
+    {name:"Essay Writing",icon:"📄",desc:"Descriptive, Argumentative essay",skill:"writing"},
+    {name:"Formal Letter & Email",icon:"📧",desc:"Professional চিঠি ও ইমেইল",skill:"writing"},
+    {name:"Report Writing",icon:"📊",desc:"Formal report structure",skill:"writing"},
+    {name:"Summary & Paraphrase",icon:"✂️",desc:"নিজের ভাষায় লেখা",skill:"writing"},
+    {name:"Creative Writing",icon:"🎨",desc:"Story, Dialogue, Description",skill:"writing"},
+    {name:"Academic Writing",icon:"🎓",desc:"Research-based writing",skill:"writing"},
+  ]},
+  {id:4,name:"Speaking",color:"#ec4899",bg:"rgba(236,72,153,.15)",topics:[
+    {name:"Phonetics & Pronunciation",icon:"🗣️",desc:"IPA, Stress, Intonation",skill:"speaking"},
+    {name:"Fluency Development",icon:"🌊",desc:"স্বাভাবিকভাবে কথা বলা",skill:"speaking"},
+    {name:"Everyday Conversation",icon:"💬",desc:"Greetings, Small talk",skill:"speaking"},
+    {name:"Formal Speaking",icon:"🎤",desc:"Presentation, Interview",skill:"speaking"},
+    {name:"Debate & Discussion",icon:"⚖️",desc:"মতামত প্রকাশ",skill:"speaking"},
+    {name:"Colloquial English",icon:"😎",desc:"Slang, Contractions",skill:"speaking"},
+  ]},
+  {id:5,name:"Listening",color:"#8b5cf6",bg:"rgba(139,92,246,.15)",topics:[
+    {name:"Listening for Gist",icon:"👂",desc:"মূল ভাব বোঝা",skill:"listening"},
+    {name:"Listening for Detail",icon:"🎯",desc:"Numbers, Names ধরা",skill:"listening"},
+    {name:"Accents & Dialects",icon:"🌍",desc:"British, American accent",skill:"listening"},
+    {name:"Podcasts & TED Talks",icon:"🎙️",desc:"Real-world content",skill:"listening"},
+    {name:"Note-taking",icon:"📋",desc:"শুনতে শুনতে পয়েন্ট লেখা",skill:"listening"},
+    {name:"Movies & Series",icon:"🎬",desc:"Subtitle দিয়ে ও ছাড়া",skill:"listening"},
+  ]},
+  {id:6,name:"Advanced",color:"#f97316",bg:"rgba(249,115,22,.15)",topics:[
+    {name:"Advanced Grammar",icon:"⚡",desc:"Subjunctive, Inversion",skill:"grammar"},
+    {name:"Business English",icon:"💼",desc:"Meeting, Negotiation",skill:"speaking"},
+    {name:"IELTS / TOEFL Prep",icon:"🏆",desc:"Exam strategies",skill:"grammar"},
+    {name:"Figurative Language",icon:"🌸",desc:"Metaphor, Simile",skill:"reading"},
+    {name:"Register & Style",icon:"🎭",desc:"Formal vs Informal",skill:"writing"},
+    {name:"Error Analysis",icon:"🔧",desc:"Common mistakes ঠিক করা",skill:"grammar"},
+    {name:"Final Integration",icon:"🎯",desc:"সব দক্ষতা একসাথে",skill:"grammar"},
+  ]},
+];
+
+const ALL_TOPICS = [];
+PHASES.forEach(p => p.topics.forEach((t,i) => ALL_TOPICS.push({...t,id:`${p.id}-${i+1}`,phase:p.id})));
+
+const VOCAB_WORDS = [
+  {word:"Persevere",type:"verb",bn:"কঠিন পরিস্থিতিতেও লেগে থাকা",ex:'"She persevered through all difficulties and finally succeeded."'},
+  {word:"Eloquent",type:"adjective",bn:"বাকপটু, সুন্দরভাবে কথা বলতে পারে",ex:'"He gave an eloquent speech that moved everyone."'},
+  {word:"Grateful",type:"adjective",bn:"কৃতজ্ঞ, উপকার স্বীকার করে",ex:'"I am truly grateful for your help and support."'},
+  {word:"Ambitious",type:"adjective",bn:"উচ্চাকাঙ্ক্ষী, বড় লক্ষ্য আছে",ex:'"She is an ambitious student who works very hard."'},
+  {word:"Resilient",type:"adjective",bn:"দ্রুত স্বাভাবিক হতে পারে, মানিয়ে নেয়",ex:'"Children are often more resilient than we think."'},
+  {word:"Accomplish",type:"verb",bn:"সফলভাবে সম্পন্ন করা",ex:'"He accomplished his goal after years of hard work."'},
+  {word:"Diligent",type:"adjective",bn:"পরিশ্রমী, মনোযোগী",ex:'"A diligent student always does well in exams."'},
+  {word:"Profound",type:"adjective",bn:"গভীর, তীব্র",ex:'"The book had a profound impact on my thinking."'},
+];
+
+const WRITING_PROMPTS = [
+  "Describe your morning routine in English.",
+  "Write about your favourite food and why you like it.",
+  "Describe your hometown in 5 sentences.",
+  "Write about your plans for the future.",
+  "Describe a person you admire and explain why.",
+];
+
+const TRANSLATE_PROMPTS = [
+  "আমি প্রতিদিন সকালে উঠে চা খাই এবং তারপর পড়তে বসি।",
+  "সে খুব ভালো ছাত্র এবং সবসময় পরিশ্রম করে।",
+  "গতকাল আমি বাজারে গিয়েছিলাম এবং অনেক কিছু কিনেছি।",
+  "আমার পরিবারে পাঁচজন সদস্য আছে।",
+];
+
+const LISTEN_SENTENCES = [
+  "The weather is very nice today.",
+  "I would like a cup of tea, please.",
+  "She works hard every single day.",
+  "Can you help me find this place?",
+  "I am learning English to improve my career.",
+  "He studies for two hours every evening.",
+  "They went to the park yesterday afternoon.",
+];
+
+const WEEKLY_PLAN = [
+  {day:"শনি",title:"Grammar দিন",color:"#f5a623",bg:"rgba(245,166,35,.15)",time:"৩০ মিনিট",tasks:["নতুন grammar rule পড়ো ও উদাহরণ লেখো","৫টি বাক্য তৈরি করে AI দিয়ে চেক করো","আগের rule review করো"]},
+  {day:"রবি",title:"Reading দিন",color:"#3d7ff5",bg:"rgba(61,127,245,.15)",time:"২০ মিনিট",tasks:["একটি English article পড়ো (BBC/Daily Star)","৫টি নতুন শব্দ নোট করো","মূল ভাব বাংলায় লেখো"]},
+  {day:"সোম",title:"Writing দিন",color:"#15c984",bg:"rgba(21,201,132,.15)",time:"৩০ মিনিট",tasks:["একটি paragraph লেখো","AI ফিডব্যাক নাও, সংশোধন করো","উন্নত version আবার লেখো"]},
+  {day:"মঙ্গল",title:"Speaking দিন",color:"#ec4899",bg:"rgba(236,72,153,.15)",time:"২০ মিনিট",tasks:["আয়নার সামনে ১ মিনিট কথা বলো","৫টি sentence জোরে পড়ো","AI শিক্ষকের সাথে কথোপকথন করো"]},
+  {day:"বুধ",title:"Listening দিন",color:"#8b5cf6",bg:"rgba(139,92,246,.15)",time:"২০ মিনিট",tasks:["একটি TED Talk শোনো","মূল ৩টি পয়েন্ট লেখো","একটি অংশ dictation করো"]},
+  {day:"বৃহ",title:"Vocabulary দিন",color:"#f97316",bg:"rgba(249,115,22,.15)",time:"১৫ মিনিট",tasks:["১০টি নতুন শব্দ শেখো","প্রতিটি শব্দ দিয়ে বাক্য তৈরি করো","আগের শব্দ review করো"]},
+  {day:"শুক্র",title:"Review দিন",color:"#15c984",bg:"rgba(21,201,132,.15)",time:"৩০ মিনিট",tasks:["সপ্তাহের সব বিষয় একবার দেখো","সবচেয়ে কঠিন বিষয়টি আবার অনুশীলন করো","পরের সপ্তাহের পরিকল্পনা করো"]},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let completed = JSON.parse(localStorage.getItem('ea_completed') || '[]');
+let stats = JSON.parse(localStorage.getItem('ea_stats') || '{"words":0,"sessions":0,"streak":0,"lastDate":"","wordIdx":0,"promptIdx":0,"translateIdx":0,"listenIdx":0,"practices":{}}');
+let chatHistory = [];
+let currentListenIdx = stats.listenIdx || 0;
+
+function save() {
+  localStorage.setItem('ea_completed', JSON.stringify(completed));
+  localStorage.setItem('ea_stats', JSON.stringify(stats));
+}
+
+// ============================================================
+// STREAK
+// ============================================================
+function updateStreak() {
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if (stats.lastDate !== today) {
+    stats.streak = stats.lastDate === yesterday ? stats.streak+1 : 1;
+    stats.lastDate = today;
+    save();
+  }
+  document.getElementById('streakCount').textContent = stats.streak;
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function updateProgress() {
+  const total = ALL_TOPICS.length;
+  const done = completed.length;
+  const pct = Math.round(done/total*100);
+  document.getElementById('mainPill').textContent = pct+'%';
+  document.getElementById('mainBar').style.width = pct+'%';
+  document.getElementById('progText').textContent = `${done}/${total} টপিক`;
+  document.getElementById('hs-done').textContent = done;
+  document.getElementById('hs-words').textContent = stats.words;
+  document.getElementById('hs-sessions').textContent = stats.sessions;
+  document.getElementById('sk-topics').textContent = `${done}/40`;
+  document.getElementById('sk-words').textContent = stats.words;
+  document.getElementById('sk-sessions').textContent = stats.sessions;
+  document.getElementById('sk-streak').textContent = stats.streak+' 🔥';
+
+  // Skill bars
+  const skillMap = {reading:[2],writing:[3],speaking:[4],listening:[5],grammar:[1,6]};
+  const totalMap = {1:7,2:7,3:7,4:6,5:6,6:7};
+  Object.entries(skillMap).forEach(([sk,phs]) => {
+    const tot = phs.reduce((a,p)=>a+totalMap[p],0);
+    const don = phs.reduce((a,p)=>a+completed.filter(id=>id.startsWith(p+'-')).length,0);
+    const v = Math.round(don/tot*100);
+    const el = document.getElementById('sk-'+sk);
+    const ep = document.getElementById('skp-'+sk);
+    if(el){el.style.width=v+'%';}
+    if(ep){ep.textContent=v+'%';}
+  });
+}
+
+// ============================================================
+// BUILD SYLLABUS
+// ============================================================
+function buildSyllabus() {
+  const c = document.getElementById('syllabusContainer');
+  c.innerHTML = PHASES.map(phase => {
+    const done = completed.filter(id=>id.startsWith(phase.id+'-')).length;
+    const topicsHTML = phase.topics.map((t,i) => {
+      const id = `${phase.id}-${i+1}`;
+      const isDone = completed.includes(id);
+      return `<div class="topic-row ${isDone?'done':''}" data-id="${id}" onclick="toggleTopic('${id}',this)">
+        <div class="t-check">${isDone?'✓':''}</div>
+        <div>
+          <div class="t-name">${t.icon} ${t.name}</div>
+          <div style="font-size:11px;color:var(--text2)">${t.desc}</div>
+        </div>
+        <button class="t-detail" onclick="event.stopPropagation();openTopicSheet('${id}')">বিস্তারিত</button>
+      </div>`;
+    }).join('');
+    return `<div class="phase-wrap">
+      <div class="phase-hdr" onclick="togglePhase(${phase.id},this)" style="border-left:3px solid ${phase.color}">
+        <div class="phase-num" style="background:${phase.bg};color:${phase.color}">${phase.id}</div>
+        <div class="phase-info">
+          <div class="phase-name">${phase.name}</div>
+          <div class="phase-prog">${done}/${phase.topics.length} সম্পন্ন</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <div style="font-size:11px;font-weight:600;color:${phase.color};background:${phase.bg};padding:3px 9px;border-radius:10px">মাস ${phase.id}</div>
+          <div class="phase-arrow">▼</div>
+        </div>
+      </div>
+      <div class="phase-body" id="pb-${phase.id}">${topicsHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+function togglePhase(id, hdr) {
+  hdr.classList.toggle('open');
+  document.getElementById('pb-'+id).classList.toggle('open');
+}
+
+function toggleTopic(id, el) {
+  if (completed.includes(id)) {
+    completed = completed.filter(x=>x!==id);
+    el.classList.remove('done');
+    el.querySelector('.t-check').textContent='';
+  } else {
+    completed.push(id);
+    el.classList.add('done');
+    el.querySelector('.t-check').textContent='✓';
+    showToast('✅ টপিক সম্পন্ন!');
+  }
+  save(); updateProgress(); buildSyllabus();
+}
+
+// ============================================================
+// TOPIC CONTENT DATA
+// ============================================================
+const TC = {
+"1-1":{intro:"Parts of Speech হলো ইংরেজি ভাষার মূল ভিত্তি। প্রতিটি শব্দ একটি নির্দিষ্ট ভূমিকা পালন করে।",sections:[
+{t:"৮টি Parts of Speech",items:[["Noun (বিশেষ্য)","ব্যক্তি, বস্তু, স্থান বা ধারণার নাম — Boy, School, Dhaka, Love"],["Pronoun (সর্বনাম)","Noun-এর পরিবর্তে ব্যবহার — He, She, They, It, We"],["Verb (ক্রিয়া)","কাজ বা অবস্থা বোঝায় — Run, Eat, Is, Have, Think"],["Adjective (বিশেষণ)","Noun-কে বর্ণনা করে — Beautiful, Big, Clever, Hot"],["Adverb (ক্রিয়া-বিশেষণ)","Verb/Adj বর্ণনা করে — Quickly, Very, Well, Always"],["Preposition (অব্যয়)","সম্পর্ক বোঝায় — In, On, At, Under, Between"],["Conjunction (সংযোজক)","শব্দ/বাক্য জোড়া দেয় — And, But, Or, Because, Although"],["Interjection (আবেগ)","আবেগ প্রকাশ করে — Oh!, Wow!, Oops!, Hurray!"]]},
+{t:"উদাহরণ বিশ্লেষণ",ex:[["She quickly ate the delicious food.","She=Pronoun, quickly=Adverb, ate=Verb, delicious=Adjective, food=Noun"],["The tall boy ran fast but fell down.","tall=Adjective, boy=Noun, ran=Verb, fast=Adverb, but=Conjunction"],["Wow! He works in Dhaka.","Wow=Interjection, He=Pronoun, works=Verb, in=Preposition, Dhaka=Noun"]]},
+{t:"গুরুত্বপূর্ণ নিয়ম",rules:["একই শব্দ ভিন্ন ভূমিকায়: 'I love music' (love=Verb) vs 'Love is blind' (love=Noun)","Adjective সবসময় Noun-এর আগে বা be verb-এর পরে: 'a beautiful girl' / 'She is beautiful'","Adverb সাধারণত -ly দিয়ে শেষ হয়: quick→quickly, slow→slowly","Conjunction দুই ধরনের: Coordinating (and, but, or) ও Subordinating (because, although, when)"]},
+{t:"অনুশীলন",q:"নিচের বাক্যে প্রতিটি শব্দের Parts of Speech চিহ্নিত করো:\n'The clever student quickly finished her difficult homework.'"}
+]},
+"1-2":{intro:"সঠিক Tense ব্যবহার করতে পারলে যেকোনো সময়ের কথা নির্ভুলভাবে বলা ও লেখা যায়। ইংরেজিতে মোট ১২টি Tense আছে।",sections:[
+{t:"Present Tense",items:[["Simple Present: I eat / She eats","সাধারণ অভ্যাস বা সত্য — প্রতিদিনের কাজ বোঝাতে"],["Present Continuous: I am eating","এখন চলছে এমন কাজ — 'am/is/are + verb-ing'"],["Present Perfect: I have eaten","সম্পন্ন কিন্তু এখনও প্রাসঙ্গিক — 'have/has + past participle'"],["Present Perfect Continuous: I have been eating for 2 hours","শুরু হয়েছে এবং এখনও চলছে"]]},
+{t:"Past Tense",items:[["Simple Past: I ate / She went","অতীতের নির্দিষ্ট সময়ে ঘটেছে"],["Past Continuous: I was eating","অতীতে চলছিল — was/were + verb-ing"],["Past Perfect: I had eaten before she came","অতীতে দুটি কাজের মধ্যে আগেরটি"],["Past Perfect Continuous: I had been waiting for hours","অতীতে দীর্ঘক্ষণ ধরে চলছিল"]]},
+{t:"Future Tense",items:[["Simple Future: I will eat / She will go","ভবিষ্যতের কাজ — will + verb"],["Future Continuous: I will be eating at 8pm","ভবিষ্যতে নির্দিষ্ট সময়ে চলবে"],["Future Perfect: I will have finished by then","ভবিষ্যতের একটি নির্দিষ্ট সময়ের আগে সম্পন্ন হবে"],["Future Perfect Continuous: I will have been working for 5 years","ভবিষ্যতে একটি নির্দিষ্ট সময় পর্যন্ত চলতে থাকবে"]]},
+{t:"সাধারণ ভুল",rules:["❌ I am go. ✅ I go. (Simple Present-এ am/is/are লাগে না)","❌ She is eat. ✅ She is eating. (Continuous-এ -ing লাগে)","❌ I have went. ✅ I have gone. (Perfect-এ Past Participle লাগে)","❌ Yesterday I eat. ✅ Yesterday I ate. (অতীতে Simple Past লাগে)"]},
+{t:"অনুশীলন",q:"সঠিক Tense-এ বাক্য লেখো:\n১. আমি প্রতিদিন স্কুলে যাই।\n২. সে এখন পড়ছে।\n৩. আমি ইতিমধ্যে কাজটি শেষ করেছি।\n৪. আমি কাল ঢাকা যাব।"}
+]},
+"1-3":{intro:"Active Voice-এ Subject কাজ করে। Passive Voice-এ Object গুরুত্বপূর্ণ হয়। Formal writing-এ Passive বেশি ব্যবহার হয়।",sections:[
+{t:"Active vs Passive",items:[["Active: The boy eats rice.","Subject (boy) কাজ করছে → সরাসরি, শক্তিশালী বাক্য"],["Passive: Rice is eaten by the boy.","Object (rice) গুরুত্বপূর্ণ → Formal writing-এ বেশি ব্যবহার"],["Active: She wrote the letter.","সহজ ও প্রাকৃতিক — কথ্য ভাষায় বেশি"],["Passive: The letter was written by her.","Formal, report, academic writing-এ বেশি"]]},
+{t:"Passive তৈরির নিয়ম",rules:["Formula: Object + be (সঠিক form) + Past Participle + (by + Subject)","Present: The cake is eaten. / Past: The cake was eaten.","Future: The cake will be eaten. / Perfect: The cake has been eaten.","By কখন বাদ দেবে: যখন Subject অজানা বা অপ্রাসঙ্গিক"]},
+{t:"উদাহরণ",ex:[["Active: Teachers teach students. → Passive: Students are taught by teachers.","Present Simple Passive"],["Active: He broke the window. → Passive: The window was broken by him.","Past Simple Passive"],["Active: They will complete the project. → Passive: The project will be completed.","Future Simple Passive"]]},
+{t:"অনুশীলন",q:"Active → Passive রূপান্তর করো:\n১. She sings a song.\n২. He cleaned the room.\n৩. They will build a house.\n৪. The teacher is explaining the lesson."}
+]},
+"1-4":{intro:"Article (a, an, the) সঠিকভাবে ব্যবহার করা ইংরেজিতে অত্যন্ত গুরুত্বপূর্ণ। বাংলাদেশি শিক্ষার্থীরা এখানে সবচেয়ে বেশি ভুল করেন।",sections:[
+{t:"Article-এর নিয়ম",items:[["'a' — consonant sound দিয়ে শুরু","a book, a car, a university (u=য উচ্চারণ), a one-way street"],["'an' — vowel sound দিয়ে শুরু","an apple, an hour (h silent), an umbrella, an honest man"],["'the' — নির্দিষ্ট, পরিচিত","the sun, the book I gave you, the tallest building in Dhaka"],["No article — সাধারণ বিষয়ে","I like music. She drinks water. Life is beautiful."]]},
+{t:"'the' ব্যবহারের বিশেষ নিয়ম",rules:["River, Ocean, Mountain range: the Padma, the Pacific, the Himalayas","Unique জিনিস: the sun, the moon, the earth, the sky","Musical instruments: play the guitar, play the piano","Superlative-এর আগে: the best, the most beautiful, the tallest","দেশের নাম সাধারণত article ছাড়া (কিন্তু the USA, the UK)"]},
+{t:"উদাহরণ",ex:[["I saw a dog. The dog was very big.","প্রথমবার 'a' (অপরিচিত), পরে 'the' (পরিচিত হয়ে গেছে)"],["She is a doctor. He is an engineer.","পেশার আগে 'a/an' — একজন, নির্দিষ্ট নয়"],["The Padma is a great river.","নদীর নামে 'the', কিন্তু সাধারণ noun-এ 'a'"]]},
+{t:"অনুশীলন",q:"a/an/the বা X (কিছু না) বসাও:\n১. ___ sun rises in ___ east.\n২. She is ___ honest girl.\n৩. I have ___ umbrella and ___ bag.\n৪. ___ rice is ___ staple food of Bangladesh."}
+]},
+"1-5":{intro:"Punctuation সঠিকভাবে ব্যবহার করলে লেখা পড়তে সহজ হয়। ভুল punctuation অর্থ সম্পূর্ণ পরিবর্তন করে দিতে পারে!",sections:[
+{t:"মূল Punctuation চিহ্ন",items:[["Period (.) — বাক্য শেষে","I am learning English. She went to school."],["Comma (,) — বিরতি, তালিকা","I like reading, writing, and listening."],["Question Mark (?) — প্রশ্নে","How are you? Where are you going?"],["Exclamation (!) — আবেগে","What a beautiful day! Congratulations!"],["Apostrophe (') — সংক্ষেপ, মালিকানা","I'm (I am), don't, John's book"],["Colon (:) — তালিকা বা ব্যাখ্যায়","I need three things: time, money, and effort."],["Semicolon (;) — সম্পর্কিত বাক্য","I was tired; however, I continued."]]},
+{t:"Capital Letter কখন",rules:["বাক্যের শুরুতে সবসময়","নামের প্রথম অক্ষরে: Rahim, Dhaka, Bangladesh","'I' সর্বনাম সবসময় capital","দিন ও মাসের নামে: Monday, January","উপাধির আগে: Dr. Karim, Professor Rahman"]},
+{t:"অর্থের পার্থক্য",ex:[["Let's eat, children! vs Let's eat children!","Comma না থাকলে অর্থ সম্পূর্ণ বদলে যায়!"],["The student, who was late, missed the exam.","Comma দিয়ে Extra information আলাদা করা"]]},
+{t:"অনুশীলন",q:"সঠিক Punctuation ও Capital letter যোগ করো:\nhe asked me where are you going i said i am going to dhaka why do you ask"}
+]},
+"1-6":{intro:"Word Formation জানলে নতুন শব্দ দেখে তাৎক্ষণিক অর্থ বোঝা যায় এবং Vocabulary দ্রুত বাড়ে।",sections:[
+{t:"Prefix (শুরুতে যোগ)",items:[["un- = না/বিপরীত","unhappy, unkind, unusual, unfair, uncomfortable"],["re- = আবার","rewrite, redo, return, review, rebuild"],["pre- = আগে","preview, prepay, prehistoric, preschool"],["mis- = ভুল","misunderstand, mistake, mislead, misuse"],["dis- = না/বিপরীত","disagree, dislike, dishonest, disappear"],["over- = অতিরিক্ত","overwork, overcome, overlook, overestimate"]]},
+{t:"Suffix (শেষে যোগ)",items:[["-tion/-sion = Noun","education, information, decision, permission"],["-ful = পূর্ণ","beautiful, careful, hopeful, powerful"],["-less = ছাড়া","careless, homeless, useless, hopeless"],["-ly = Adverb","quickly, slowly, happily, carefully"],["-er/-or = যে করে","teacher, doctor, writer, actor"],["-ment = Noun","development, government, achievement"]]},
+{t:"Root Words",ex:[["port (বহন করা)","import, export, transport, portable, report"],["dict (বলা)","dictate, dictionary, predict, contradict"],["struct (গড়া)","structure, construct, destroy, instruct"]]},
+{t:"অনুশীলন",q:"Noun, Verb, Adjective, Adverb তৈরি করো:\n১. happy → \n২. care → \n৩. build → \n৪. educate →"}
+]},
+"1-7":{intro:"Sentence Structure সঠিক হলে লেখা ও কথা আরও স্পষ্ট ও প্রভাবশালী হয়। জটিল ভাব সহজে প্রকাশ করা যায়।",sections:[
+{t:"বাক্যের ৪ ধরন",items:[["Simple: I study English.","একটি Subject + একটি Verb — সরল, স্পষ্ট"],["Compound: I study hard, but I need more practice.","দুটি Simple বাক্য and/but/or/so দিয়ে"],["Complex: I study because I want to succeed.","Main clause + Subordinate clause"],["Compound-Complex: Although it was raining, I went out and got wet.","Compound + Complex মিলিয়ে"]]},
+{t:"Subordinating Conjunctions",rules:["Time: when, while, before, after, until, as soon as","Reason: because, since, as","Contrast: although, even though, whereas, while","Condition: if, unless, provided that, as long as","Purpose: so that, in order that"]},
+{t:"উদাহরণ",ex:[["Simple → Compound: I was tired. I continued. → I was tired, but I continued.","দুটি ছোট বাক্য একত্রিত করা"],["Complex: Although I was tired, I continued working.","'although' দিয়ে বৈসাদৃশ্য দেখানো"]]},
+{t:"অনুশীলন",q:"Simple বাক্যগুলো Compound বা Complex-এ রূপান্তর করো:\n১. It was raining. We went out.\n২. She studied hard. She passed the exam.\n৩. He was tired. He did not stop."}
+]},
+"2-1":{intro:"Skimming ও Scanning হলো দ্রুত পড়ার দুটি কৌশল। এগুলো ব্যবহার করলে কম সময়ে বেশি তথ্য পাওয়া যায়।",sections:[
+{t:"Skimming vs Scanning",items:[["Skimming — মূল ভাব বোঝা","পুরো লেখা না পড়ে দ্রুত overview নেওয়া। Title, first & last paragraph পড়ো।"],["Scanning — নির্দিষ্ট তথ্য খোঁজা","নির্দিষ্ট তথ্য (নাম, তারিখ, সংখ্যা) খুঁজে বের করা।"]]},
+{t:"Skimming কৌশল",rules:["Title ও Subtitle আগে পড়ো — মূল বিষয় বুঝতে পারবে","প্রতিটি paragraph-এর প্রথম বাক্য পড়ো (Topic sentence)","Bold, Italic, Underlined শব্দে মনোযোগ দাও","উপসংহার (Conclusion) পড়ো — মূল বার্তা থাকে"]},
+{t:"Scanning কৌশল",rules:["আগে জানো কী খুঁজছো (name, date, number, keyword)","পুরো পড়ো না — শুধু চোখ বোলাও","Keyword এর কাছাকাছি গেলে সেখানে থামো","Numbers ও Proper nouns সহজে চোখে পড়ে"]},
+{t:"অনুশীলন",q:"যেকোনো একটি English article নাও (BBC/Daily Star)।\nSkimming করে মূল বিষয় ৩টি বাক্যে লেখো।\nScanning করে ৩টি specific তথ্য খুঁজে বের করো।"}
+]},
+"2-2":{intro:"অজানা শব্দের অর্থ Context থেকে বোঝার দক্ষতা Advanced reading-এর জন্য অপরিহার্য।",sections:[
+{t:"Context Clues-এর ধরন",items:[["Definition Clue","লেখক নিজেই অর্থ বলে দেন: 'Ecology, the study of living things...'"],["Example Clue","উদাহরণ দিয়ে বোঝানো: 'Mammals such as dogs, cats, and whales...'"],["Contrast Clue","বিপরীত শব্দ দিয়ে: 'Unlike her cheerful sister, she was always morose.'"],["Synonym Clue","একই অর্থের শব্দ কাছে থাকে: 'The arid, dry desert...'"]]},
+{t:"অনুমান করার কৌশল",rules:["আগের ও পরের বাক্য পড়ো — Context বোঝার জন্য","Prefix/Suffix দেখো — mis-, un-, -tion, -ful","বাক্যে শব্দের ভূমিকা বোঝো (Noun/Verb/Adj/Adv)","অনুমান করো, তারপর Dictionary-তে মিলিয়ে নাও"]},
+{t:"উদাহরণ",ex:[["The ancient edifice had stood for centuries.","'edifice' = building — 'stood for centuries' থেকে বোঝা যায়"],["He was so famished that he ate three plates of food.","'famished' = very hungry — 'three plates' থেকে বোঝা যায়"],["Unlike her gregarious brother, she was shy and quiet.","'gregarious' = social/outgoing — contrast থেকে বোঝা যায়"]]},
+{t:"অনুশীলন",q:"Context থেকে অর্থ বোঝো (Dictionary ব্যবহার করো না):\n'The doctor's prognosis was optimistic; he believed the patient would recover quickly.'\nprognosis = ?"}
+]},
+"2-3":{intro:"Critical Reading মানে শুধু পড়া নয়, লেখকের যুক্তি ও উদ্দেশ্য বিশ্লেষণ করা।",sections:[
+{t:"Critical Reading-এর ধাপ",items:[["Main Argument খোঁজা","লেখক কী বলতে চাইছেন? Thesis statement কোনটি?"],["Evidence যাচাই করা","যুক্তির প্রমাণ কতটা শক্তিশালী? তথ্যসূত্র আছে কি?"],["Bias চেনা","লেখক কোনো দিকে ঝুঁকে আছেন? একতরফা তথ্য দিচ্ছেন কি?"],["Conclusion মূল্যায়ন","সিদ্ধান্ত কি যুক্তিসংগত? Alternative view কী হতে পারে?"]]},
+{t:"Fact vs Opinion",rules:["Fact: যাচাইযোগ্য তথ্য — 'Bangladesh gained independence in 1971.'","Opinion: ব্যক্তিগত মত — 'Bangladesh is the most beautiful country.'","Signal words for opinion: I believe, In my opinion, It seems, arguably","Critical reader সবসময় fact ও opinion আলাদা করে"]},
+{t:"অনুশীলন",q:"নিচের paragraph পড়ে উত্তর দাও:\n'Social media is destroying society. Young people spend hours on phones instead of having real conversations. Studies show depression rates increased since smartphones became popular.'\n১. Main argument কী?\n২. Fact vs Opinion আলাদা করো।\n৩. লেখকের কোনো bias আছে কি?"}
+]},
+"2-4":{intro:"Real-world English পড়ার সবচেয়ে কার্যকর উপায় হলো প্রতিদিন English পত্রিকা বা অনলাইন আর্টিকেল পড়া।",sections:[
+{t:"কোথায় পড়বে",items:[["The Daily Star (Bangladesh)","সহজ ইংরেজি, স্থানীয় প্রেক্ষাপট — শুরু করার জন্য আদর্শ"],["BBC News","International news, পরিষ্কার ও সহজ ভাষা"],["The Guardian","In-depth analysis, advanced vocabulary"],["Wikipedia","যেকোনো বিষয়ে English-এ পড়া অনুশীলন করো"]]},
+{t:"পড়ার কৌশল",rules:["প্রতিদিন অন্তত একটি article পড়ো","অজানা শব্দ নোট করো — Context থেকে অর্থ বোঝার চেষ্টা করো আগে","Summary নিজে লেখো — ৩-৫ বাক্যে মূল ভাব","Headline দেখে বিষয় অনুমান করো — তারপর পড়ে মিলিয়ে নাও"]},
+{t:"অনুশীলন",q:"আজকের Daily Star বা BBC থেকে একটি article পড়ো। তারপর:\n১. Headline কী?\n২. মূল বিষয় ৩ বাক্যে লেখো।\n৩. ৫টি নতুন শব্দ নোট করো।\n৪. তোমার মতামত ২ বাক্যে লেখো।"}
+]},
+"2-5":{intro:"Idioms হলো এমন phrase যার আক্ষরিক অর্থ ও প্রকৃত অর্থ আলাদা। Native speakers প্রতিদিন এগুলো ব্যবহার করেন।",sections:[
+{t:"সবচেয়ে প্রয়োজনীয় Idioms",items:[["Break a leg","সৌভাগ্য কামনা — 'Break a leg in your exam!'"],["Hit the nail on the head","একদম সঠিক বলেছ — 'You hit the nail on the head!'"],["Under the weather","অসুস্থ বোধ করছি — 'I'm feeling under the weather today.'"],["Bite the bullet","কঠিন পরিস্থিতি সহ্য করা — 'Just bite the bullet and do it.'"],["Cost an arm and a leg","অত্যন্ত দামি — 'That car costs an arm and a leg.'"],["Once in a blue moon","খুব কমই — 'He visits us once in a blue moon.'"],["Spill the beans","গোপন কথা ফাঁস করা — 'She spilled the beans about the surprise.'"],["The ball is in your court","এখন তোমার সিদ্ধান্ত — 'The ball is in your court.'"],["Beat around the bush","মূল বিষয় এড়িয়ে কথা বলা — 'Stop beating around the bush!'"],["Let the cat out of the bag","অজান্তে রহস্য ফাঁস — 'He let the cat out of the bag.'"]]},
+{t:"অনুশীলন",q:"নিচের idioms দিয়ে বাক্য তৈরি করো:\n১. break a leg\n২. under the weather\n৩. once in a blue moon\n৪. cost an arm and a leg"}
+]},
+"2-6":{intro:"Cohesion মানে বাক্যগুলো একসূত্রে গাঁথা। Coherence মানে লেখার প্রবাহ ও যুক্তি ঠিক থাকা।",sections:[
+{t:"Linking Words",items:[["Adding: furthermore, moreover, in addition, besides","আরও তথ্য যোগ করতে"],["Contrasting: however, on the other hand, although, despite","বিপরীত মত দিতে"],["Cause/Effect: therefore, consequently, as a result, thus","কারণ-ফলাফল বোঝাতে"],["Sequencing: firstly, secondly, finally, then, next","ক্রম বোঝাতে"],["Example: for instance, for example, such as, namely","উদাহরণ দিতে"],["Conclusion: in conclusion, to sum up, overall","শেষ করতে"]]},
+{t:"তুলনা",ex:[["Without linking: I like English. It is hard. I practice daily.","প্রবাহ নেই, আটকে আটকে পড়তে হয়"],["With linking: I like English; however, it is hard. Therefore, I practice daily.","প্রবাহ আছে, পড়তে ভালো লাগে"]]},
+{t:"অনুশীলন",q:"Linking words যোগ করে paragraph টি সুন্দর করো:\n'Learning English is important. It takes time. Many people give up. They don't practice daily. They never improve.'"}
+]},
+"2-7":{intro:"Advanced Vocabulary ছাড়া IELTS, TOEFL বা professional জীবনে সাফল্য পাওয়া কঠিন।",sections:[
+{t:"শেখার কৌশল",rules:["Spaced Repetition — Anki app ব্যবহার করো","Context-এ শেখো — isolated শব্দ নয়, বাক্যে দেখো","একটি শব্দের সব form শেখো: educate→education→educational→educationally","প্রতিদিন ৫-১০টি নতুন শব্দ, পুরনোগুলো review করো"]},
+{t:"Academic Word List",items:[["analyze / analysis","বিশ্লেষণ করা — 'Analyze the data carefully.'"],["significant / significantly","উল্লেখযোগ্য — 'This is a significant achievement.'"],["establish / establishment","প্রতিষ্ঠা করা — 'Establish good habits early.'"],["demonstrate / demonstration","প্রমাণ করা — 'Demonstrate your understanding.'"],["evaluate / evaluation","মূল্যায়ন করা — 'Evaluate the results carefully.'"],["concept / conceptual","ধারণা — 'This is a complex concept.'"]]},
+{t:"অনুশীলন",q:"নিচের Academic Words দিয়ে বাক্য তৈরি করো:\n১. analyze\n২. significant\n৩. demonstrate\n৪. evaluate"}
+]},
+"3-1":{intro:"একটি ভালো paragraph লেখা সব ধরনের writing-এর মূল ভিত্তি।",sections:[
+{t:"Paragraph-এর কাঠামো",items:[["Topic Sentence (প্রথম বাক্য)","Paragraph-এর মূল বিষয় বলে।"],["Supporting Sentences (মাঝের ৩-৫ বাক্য)","উদাহরণ, তথ্য, ব্যাখ্যা দেয়।"],["Concluding Sentence (শেষ বাক্য)","মূল ভাব পুনরায় বলে, নতুন তথ্য দেয় না।"]]},
+{t:"ভালো Paragraph-এর বৈশিষ্ট্য",rules:["Unity — একটি paragraph-এ একটিই মূল idea","Coherence — বাক্যগুলো যুক্তিসংগতভাবে সাজানো","Adequate Development — যথেষ্ট উদাহরণ ও বিশ্লেষণ","Appropriate Length — সাধারণত ৫-১০টি বাক্য"]},
+{t:"উদাহরণ",ex:[["Topic: Regular exercise is beneficial for health.","Supporting: It improves cardiovascular health... builds muscle... reduces stress...\nConcluding: Therefore, everyone should exercise regularly."]]},
+{t:"অনুশীলন",q:"নিচের topic-এ একটি ভালো paragraph লেখো (৫-৭ বাক্য):\n'Learning English opens many opportunities in life.'"}
+]},
+"3-2":{intro:"Essay writing একটি গুরুত্বপূর্ণ academic দক্ষতা। IELTS, SSC, HSC সহ সব পরীক্ষায় এটি কাজে আসে।",sections:[
+{t:"Essay-এর কাঠামো",items:[["Introduction","Hook + Background + Thesis Statement (মূল যুক্তি)"],["Body Paragraph 1","প্রথম মূল যুক্তি + উদাহরণ + ব্যাখ্যা"],["Body Paragraph 2","দ্বিতীয় মূল যুক্তি + উদাহরণ + ব্যাখ্যা"],["Conclusion","Thesis পুনরায় + Main points সংক্ষেপ + Final thought"]]},
+{t:"Essay-এর ধরন ও Hook",rules:["Descriptive: 'My Hometown', 'A Person I Admire'","Argumentative: পক্ষে/বিপক্ষে যুক্তি দাও","Narrative: গল্পের মতো বলো","Hook: shocking statistic, rhetorical question, or interesting quote দিয়ে শুরু করো"]},
+{t:"অনুশীলন",q:"নিচের topic-এ একটি ৪-paragraph essay outline তৈরি করো:\n'Technology has changed the way we learn.'\n(Introduction + 2 Body paragraphs + Conclusion)"}
+]},
+"3-3":{intro:"Professional life-এ formal letter ও email লেখার দক্ষতা অপরিহার্য।",sections:[
+{t:"Formal Email-এর কাঠামো",items:[["Subject Line","স্পষ্ট ও সংক্ষিপ্ত: 'Application for Marketing Position'"],["Salutation","Dear Mr./Ms. [Name], / Dear Sir/Madam,"],["Opening","I am writing to... / I would like to..."],["Body","মূল বিষয় সংক্ষেপে ও স্পষ্টভাবে"],["Closing","I look forward to hearing from you."],["Sign-off","Yours sincerely, (নাম জানলে) / Yours faithfully,"]]},
+{t:"গুরুত্বপূর্ণ Phrases",rules:["Opening: 'I am writing with reference to...'","Requesting: 'I would be grateful if you could...'","Attaching: 'Please find attached...'","Closing: 'I look forward to your reply.'"]},
+{t:"অনুশীলন",q:"নিচের পরিস্থিতিতে একটি formal email লেখো:\nতুমি একটি job-এর জন্য apply করতে চাও।\nCompany-র HR Manager-কে email করো।\nSubject: Application for [তোমার পছন্দের] Position"}
+]},
+"3-4":{intro:"Report writing business ও academic জীবনে অত্যন্ত গুরুত্বপূর্ণ।",sections:[
+{t:"Report-এর অংশ",items:[["Title","স্পষ্ট ও তথ্যপূর্ণ"],["Introduction","উদ্দেশ্য, পটভূমি, scope বর্ণনা করো"],["Methodology","তথ্য কীভাবে সংগ্রহ করা হয়েছে"],["Findings","তথ্য ও বিশ্লেষণ — headings দিয়ে সাজাও"],["Conclusion","মূল ফলাফলের সারসংক্ষেপ"],["Recommendations","সুনির্দিষ্ট পরামর্শ"]]},
+{t:"বৈশিষ্ট্য",rules:["Formal, impersonal ভাষা: 'It was found that...' না 'I found that...'","Passive voice বেশি ব্যবহার হয়: 'Data was collected from...'","Headings ও Sub-headings ব্যবহার করো","Graphs, tables উল্লেখ করো: 'As shown in Figure 1...'"]},
+{t:"অনুশীলন",q:"নিচের topic-এ একটি short report-এর outline তৈরি করো:\n'The Impact of Social Media on Students Study Habits'\n(Title + Introduction + Findings + Conclusion + Recommendations)"}
+]},
+"3-5":{intro:"Paraphrasing মানে হুবহু copy না করে নিজের ভাষায় একই কথা বলা।",sections:[
+{t:"Paraphrase করার কৌশল",rules:["Synonym ব্যবহার করো: big→large, happy→content","বাক্যের গঠন পরিবর্তন করো: Active→Passive","বাক্য ভাগ করো বা মেলাও","Phrase পরিবর্তন করো: 'a lot of'→'numerous'"]},
+{t:"উদাহরণ",ex:[["Original: Many students find English difficult to learn.","Paraphrase: A large number of learners consider English to be quite challenging."],["Original: He was tired so he went to bed early.","Paraphrase: Due to his exhaustion, he retired for the night at an early hour."],["Original: The internet has changed how people communicate.","Paraphrase: Communication has been transformed by the internet."]]},
+{t:"অনুশীলন",q:"নিচের paragraph টি paraphrase করো:\n'Regular physical exercise is essential for maintaining good health. It helps in reducing the risk of chronic diseases, improving mental well-being, and increasing energy levels throughout the day.'"}
+]},
+"3-6":{intro:"Creative writing তোমার কল্পনা ও ভাষার উপর দক্ষতা বাড়ায়।",sections:[
+{t:"উপাদান",items:[["Setting (পরিবেশ)","সময় ও স্থানের বর্ণনা — 'On a rainy evening in old Dhaka...'"],["Character (চরিত্র)","বৈশিষ্ট্য, অনুভূতি, motivation বর্ণনা করো"],["Plot (কাহিনী)","শুরু → Conflict → Climax → Resolution"],["Dialogue (কথোপকথন)","চরিত্রদের কথোপকথন — realistic ও natural রাখো"],["Descriptive Language","Adjective, Adverb, Metaphor দিয়ে প্রাণবন্ত বর্ণনা"]]},
+{t:"Show, Don't Tell",ex:[["Tell: She was angry. (দুর্বল)","Show: Her hands trembled as she slammed the door shut. (শক্তিশালী)"],["Tell: It was a beautiful morning.","Show: Golden sunlight poured through the window, and birds sang in the cool breeze."]]},
+{t:"অনুশীলন",q:"নিচের prompt নিয়ে ১০০-১৫০ শব্দে একটি ছোট story লেখো:\n'She opened the old letter and could not believe what she read...'"}
+]},
+"3-7":{intro:"Academic writing-এ নির্দিষ্ট নিয়ম মেনে চলতে হয়। University ও professional গবেষণায় এটি অপরিহার্য।",sections:[
+{t:"Academic Writing-এর বৈশিষ্ট্য",rules:["Formal ভাষা: contractions এড়াও (don't→do not)","Third person: 'I think'→'It can be argued that'","Evidence-based: claim করলে প্রমাণ দাও","Hedging: 'may', 'might', 'possibly', 'tends to'","Precise: avoid 'things', 'stuff', 'a lot' — specific হও"]},
+{t:"Thesis Statement",ex:[["Weak: 'Social media is bad for students.'","Too general, no argument"],["Strong: 'Excessive social media use negatively impacts academic performance by reducing concentration and encouraging procrastination.'","Specific, arguable, focused"]]},
+{t:"অনুশীলন",q:"Informal বাক্যগুলো academic style-এ লেখো:\n১. 'I think social media is really bad for young people.'\n২. 'Lots of students don't study enough.'\n৩. 'Technology stuff changes how we learn things.'"}
+]},
+"4-1":{intro:"সঠিক Pronunciation না হলে native speakers তোমাকে বুঝতে পারবে না।",sections:[
+{t:"গুরুত্বপূর্ণ নিয়ম",rules:["Silent Letters: know (k silent), write (w silent), hour (h silent)","Th sound: জিভ দাঁতের মাঝে হালকা ধরো — think, three, this","Short vs Long vowels: ship/sheep, bad/bird, hit/heat","Word Stress: PHOtograph (noun) vs phoTOGraph (verb)"]},
+{t:"Stress পরিবর্তনে অর্থের পার্থক্য",ex:[["PREsent (noun)=উপহার vs preSENT (verb)=উপস্থাপন করা","Noun-এ প্রথম syllable, Verb-এ দ্বিতীয় syllable stress"],["REcord (noun)=রেকর্ড vs reCORD (verb)=রেকর্ড করা","একই spelling, stress আলাদা"]]},
+{t:"উন্নত করার উপায়",rules:["নিজেকে record করো — শুনে ভুল ধরো","Native speakers-দের মতো shadowing করো","Tongue twisters: 'She sells seashells by the seashore'"]},
+{t:"অনুশীলন",q:"নিচের শব্দগুলো জোরে পড়ো, stress চিহ্নিত করো:\n1. photograph, photographer, photographic\n2. economy, economic, economically\nকোন syllable-এ stress? AI শিক্ষককে জিজ্ঞেস করো।"}
+]},
+"4-2":{intro:"Fluency মানে নিখুঁত grammar নয়, বরং স্বাভাবিকভাবে ও আত্মবিশ্বাসের সাথে কথা বলা।",sections:[
+{t:"Fluency বাড়ানোর কৌশল",rules:["প্রতিদিন জোরে পড়ো — ৫-১০ মিনিট যেকোনো English text","নিজেকে record করো, শুনো, উন্নত করো","Filler words কমাও: 'um', 'uh', 'like', 'you know'","বাংলায় চিন্তা করা বন্ধ করো — English-এ ভাবো"]},
+{t:"Shadowing Technique",items:[["Step 1","Native speaker-এর কথা শোনো (movie/podcast)"],["Step 2","সাথে সাথে তাদের মতো করে বলো — rhythm, stress, intonation সহ"],["Step 3","বারবার করো — একই অংশ ১০ বার"],["Step 4","নিজেকে record করো, compare করো"]]},
+{t:"অনুশীলন",q:"নিচের topic-এ ১ মিনিট না থেমে কথা বলো (record করো):\n'Tell me about your daily routine.'\nRecording শুনে evaluate করো:\n- কতবার থামলে?\n- উচ্চারণ কেমন হলো?\nAI শিক্ষককে feedback নাও।"}
+]},
+"4-3":{intro:"Everyday conversation-এর phrases মুখস্থ করলে যেকোনো situation সহজে handle করতে পারবে।",sections:[
+{t:"Essential Conversation Phrases",items:[["Asking for clarification","'Could you repeat that?' / 'What do you mean by...?'"],["Agreeing","'Absolutely!' / 'That's a great point.' / 'Exactly!'"],["Disagreeing politely","'I see your point, but...' / 'I'm not entirely sure about that.'"],["Expressing opinion","'In my opinion...' / 'From my perspective...'"],["Buying time","'Let me think about that.' / 'That's an interesting question.'"],["Starting conversation","'By the way...' / 'Have you heard about...?'"]]},
+{t:"Small Talk Topics",rules:["Weather: 'It's such a lovely day, isn't it?'","Work/Study: 'How's work going?' / 'What are you studying?'","Current events: 'Did you see the news about...?'","Avoid: religion, politics, money in casual conversation"]},
+{t:"অনুশীলন",q:"AI শিক্ষকের সাথে practice করো:\n'তুমি একটি নতুন office-এ যোগ দিয়েছ। সহকর্মীর সাথে প্রথমবার কথা বলছ।'\nনিচে AI শিক্ষককে বলো: 'Office conversation practice করতে চাই'"}
+]},
+"4-4":{intro:"Formal speaking skill career-এ এগিয়ে যাওয়ার জন্য অত্যন্ত গুরুত্বপূর্ণ।",sections:[
+{t:"Presentation কাঠামো",rules:["শুরু: 'Good morning. Today I will talk about...'","Transition: 'Moving on to...' / 'This brings me to...'","Emphasizing: 'The key point here is...'","Ending: 'To sum up...' / 'Thank you for your attention.'"]},
+{t:"Job Interview — STAR Method",items:[["S = Situation","পরিস্থিতি বর্ণনা করো — কোথায়, কখন"],["T = Task","তোমার দায়িত্ব কী ছিল"],["A = Action","তুমি কী করলে"],["R = Result","ফলাফল কী হলো — numbers দিলে ভালো"]]},
+{t:"অনুশীলন",q:"STAR method-এ উত্তর লেখো:\n'Tell me about a time when you worked successfully in a team.'\n(AI শিক্ষককে দেখিয়ে feedback নাও)"}
+]},
+"4-5":{intro:"Debate ও discussion করতে পারলে logical thinking ও English দক্ষতা দুটোই বাড়ে।",sections:[
+{t:"Debate Phrases",items:[["Stating opinion","'In my opinion...' / 'I strongly believe that...'"],["Supporting","'This is evidenced by...' / 'Research shows...'"],["Countering","'While that may be true...' / 'On the contrary...'"],["Conceding","'You raise a valid point, however...'"],["Concluding","'In conclusion...' / 'Therefore, I maintain that...'"]]},
+{t:"Practice Topics",rules:["'Social media does more harm than good.'","'Online learning is better than classroom learning.'","'English should be the official language of Bangladesh.'","'Technology is making us less creative.'"]},
+{t:"অনুশীলন",q:"AI শিক্ষকের সাথে debate করো:\nTopic: 'Social media does more harm than good.'\nAI শিক্ষককে বলো: 'Debate করতে চাই। তুমি FOR side নাও, আমি AGAINST বলব।'"}
+]},
+"4-6":{intro:"Native speakers যেভাবে কথা বলেন তা শিখলে তোমার English আরও natural শোনাবে।",sections:[
+{t:"Common Contractions",items:[["gonna = going to","'I'm gonna study tonight.' — informal spoken English"],["wanna = want to","'Do you wanna come?' — casual conversation"],["gotta = have got to","'I gotta finish this.' — informal obligation"],["kinda/sorta = kind of/sort of","'It's kinda difficult.' — softening a statement"],["lemme = let me","'Lemme check.' — very informal"],["dunno = don't know","'I dunno.' — casual spoken English"]]},
+{t:"American vs British",ex:[["American: apartment, elevator, cookie, soccer","British: flat, lift, biscuit, football"],["American: 'I didn't do it yet.' vs British: 'I haven't done it yet.'","Present Perfect vs Simple Past — same meaning"]]},
+{t:"অনুশীলন",q:"Formal বাক্যগুলো informal style-এ লেখো:\n১. 'I am going to the market.'\n২. 'I want to eat something.'\n৩. 'I do not know the answer.'"}
+]},
+"5-1":{intro:"Gist listening মানে সব শব্দ না বুঝলেও মূল বিষয় ধরতে পারা।",sections:[
+{t:"Gist Listening কৌশল",rules:["Keywords-এ মনোযোগ দাও — সব শব্দে নয়","Speaker-এর tone ও emotion বোঝো","First ও last sentence বেশি গুরুত্বপূর্ণ","ভয় পাবে না — অনুমান করো","Repeated words গুরুত্বপূর্ণ — speaker যা বারবার বলছেন"]},
+{t:"কী শুনবে",items:[["Topic — কী বিষয়ে কথা হচ্ছে?","First few sentences-এ সাধারণত topic আসে"],["Purpose — কেন বলছে?","To inform, to persuade, to entertain?"],["Tone — কেমন ভাব?","Formal/informal, positive/negative, serious/humorous"]]},
+{t:"অনুশীলন",q:"YouTube-এ 'BBC 6 Minute English' খোঁজো।\nযেকোনো একটি episode শোনো। না বুঝলেও চালিয়ে যাও।\nশেষে লেখো:\n১. মূল topic কী?\n২. Speaker কী বলতে চাইলেন?\n৩. ৩টি keyword।"}
+]},
+"5-2":{intro:"Specific তথ্য শোনার দক্ষতা IELTS Listening, Phone calls, Lectures-এ অত্যন্ত গুরুত্বপূর্ণ।",sections:[
+{t:"Detail Listening কৌশল",rules:["আগে জানো কী ধরনের তথ্য দরকার (number, name, date)","Note নাও — সব মনে রাখা সম্ভব নয়","Numbers-এ বিশেষ মনোযোগ দাও","Proper nouns (names, places) আলাদাভাবে চিহ্নিত করো","Synonyms শুনো — একই তথ্য অন্য শব্দে বলা হতে পারে"]},
+{t:"Note-taking Abbreviations",items:[["w/ = with, b/c = because, → = leads to","দ্রুত note নিতে সংক্ষেপ ব্যবহার করো"],["✓ = correct, ✗ = wrong, ? = unsure","Quick symbols দিয়ে note রাখো"],["NO. = number, PL = place, DT = date","Category labels ব্যবহার করো"]]},
+{t:"অনুশীলন",q:"YouTube-এ 'IELTS Listening practice test' খোঁজো।\nSection 1 শোনো (সহজ conversation)।\nকতটা তথ্য ধরতে পারলে?\nAI শিক্ষককে জিজ্ঞেস: 'IELTS Listening Section 1 tips দাও'"}
+]},
+"5-3":{intro:"বিভিন্ন accent বুঝতে পারলে international context-এ সহজে communicate করা যায়।",sections:[
+{t:"প্রধান Accent-এর পার্থক্য",items:[["British English","'r' অনেক সময় silent: car=caa; 'a' আলাদা: bath=baath"],["American English","'r' সবসময় উচ্চারিত; 't' often 'd': water=wader"],["Australian English","Vowel sounds ভিন্ন: day=die, mate=mite — informal ও friendly"]]},
+{t:"উদাহরণ",ex:[["'water': British=waw-tuh, American=wad-er","'r' উচ্চারণই সবচেয়ে বড় পার্থক্য"],["'dance': British=dahnce, American=dance","'a' vowel-এর উচ্চারণ ভিন্ন"]]},
+{t:"অনুশীলন",q:"YouTube-এ দেখো:\n১. BBC News presenter (British accent)\n২. CNN News presenter (American accent)\nপার্থক্য নোট করো।\nকোনটি বুঝতে সহজ লাগলো এবং কেন?"}
+]},
+"5-4":{intro:"Podcasts ও TED Talks হলো Listening practice-এর সেরা উপায় — real English, real speed।",sections:[
+{t:"শুরু করার জন্য সেরা",items:[["TED-Ed (YouTube)","Short (5-10 min), educational, English subtitle — শুরুর জন্য"],["6 Minute English (BBC)","Beginner-friendly, transcript আছে, প্রতিদিন নতুন episode"],["VOA Learning English","Slower speech, simple vocabulary — intermediate-র জন্য আদর্শ"],["This American Life","Story-based, intermediate-এর জন্য"]]},
+{t:"শোনার কৌশল",rules:["Step 1: প্রথমে subtitle সহ শোনো","Step 2: দ্বিতীয়বার subtitle ছাড়া শোনো","Step 3: নতুন শব্দ ও phrase নোট করো","Step 4: একই episode ৩ বার শোনো","Step 5: Shadowing করো"]},
+{t:"অনুশীলন",q:"YouTube-এ এই TED Talk দেখো:\n'Do schools kill creativity? - Ken Robinson'\n(Subtitle on করো প্রথমবার)\nশেষে লেখো:\n১. মূল বক্তব্য কী?\n২. কোন অংশটি সবচেয়ে interesting?\n৩. ৫টি নতুন expression।"}
+]},
+"5-5":{intro:"Effective note-taking lecture, meeting ও presentation-এ সঠিক তথ্য ধরে রাখতে সাহায্য করে।",sections:[
+{t:"Note-taking কৌশল",rules:["Keywords লেখো, পুরো বাক্য নয়","Abbreviation: w/=with, b/c=because, →=leads to, ∴=therefore","Main points ও Supporting points আলাদাভাবে","শোনার পরে notes পরিষ্কার করো — যত তাড়াতাড়ি সম্ভব","Headings দিয়ে topic পরিবর্তন চিহ্নিত করো"]},
+{t:"Cornell Method",items:[["Main Notes Area (right 70%)","সব note এখানে — keywords, ideas, examples"],["Cue Column (left 30%)","পরে review-এর জন্য key questions বা terms"],["Summary (bottom)","পুরো page-এর ২-৩ বাক্যে সারসংক্ষেপ"]]},
+{t:"অনুশীলন",q:"যেকোনো একটি TED Talk বা Lecture শুনতে শুনতে Cornell Method-এ notes নাও:\n- Main ideas কী কী?\n- Key words ও examples?\n- শেষে ২ বাক্যে summary লেখো।"}
+]},
+"5-6":{intro:"Movies ও Series দেখা listening-এর সবচেয়ে মজাদার উপায়।",sections:[
+{t:"কীভাবে শিখবে",rules:["Level 1: English subtitle সহ দেখো","Level 2: Bangla subtitle সরিয়ে, English রাখো","Level 3: Subtitle ছাড়া দেখো","Interesting dialogue জোরে বলো — shadowing","নতুন expressions ও idioms নোট করো"]},
+{t:"শুরু করার জন্য সেরা",items:[["Friends (Sitcom)","সহজ ভাষা, everyday conversation — সবচেয়ে জনপ্রিয়"],["The Crown (Drama)","British English, formal speech"],["Ted Lasso","Motivational, clear pronunciation"],["How I Met Your Mother","Everyday conversation, idioms, informal English"]]},
+{t:"অনুশীলন",q:"Friends Season 1, Episode 1 দেখো।\nনোট করো:\n১. ৫টি নতুন expression বা phrase\n২. ১টি interesting conversation লেখো\n৩. কোনো idiom ব্যবহার হয়েছে?"}
+]},
+"6-1":{intro:"Advanced Grammar structures ব্যবহার করলে তোমার English আরও sophisticated শোনাবে।",sections:[
+{t:"Inversion",ex:[["'Never have I seen such beauty.'","= I have never seen... (Negative adverb দিয়ে শুরু)"],["'Not only did he pass, but he also got A+.'","Not only...but also structure"],["'Had I known, I would have helped.'","= If I had known... (Conditional Inversion)"]]},
+{t:"Cleft Sentences",ex:[["It-cleft: 'It was Rahim who solved the problem.'","Rahim-কে emphasize করা হচ্ছে"],["What-cleft: 'What I need is more practice.'","'more practice' emphasize"]]},
+{t:"Subjunctive",rules:["Wish + Past: 'I wish I were taller.' (were — সব subject-এ)","If + Past: 'If I were you, I would study more.'","Suggest/Recommend: 'I suggest that he study harder.' (study না studies)"]},
+{t:"অনুশীলন",q:"Simple বাক্যগুলো Inversion বা Cleft Sentence ব্যবহার করে rewrite করো:\n১. 'I have never seen such a beautiful place.'\n২. 'Rahim helped me most.'\n৩. 'I need your support more than anything.'"}
+]},
+"6-2":{intro:"Business English জানলে corporate জগতে সহজে communicate করা ও promote হওয়া সম্ভব।",sections:[
+{t:"Meeting Phrases",items:[["Opening","'Let's get started.' / 'The purpose of today's meeting is...'"],["Giving opinion","'From my perspective...' / 'I'd like to suggest...'"],["Interrupting politely","'Sorry to interrupt, but...' / 'Could I just add something?'"],["Closing","'To summarize...' / 'Action items for next time...'"]]},
+{t:"Negotiation Language",rules:["Making offer: 'What if we consider...?' / 'How about a compromise?'","Refusing politely: 'I understand your position, however...'","Reaching agreement: 'I think we can work with that.'"]},
+{t:"অনুশীলন",q:"নিচের পরিস্থিতিতে Business English-এ respond করো:\n'Your client says: The deadline is too tight. We cannot deliver by Friday.'\nPolitely negotiate — suggest an alternative solution."}
+]},
+"6-3":{intro:"IELTS/TOEFL ভালো score পেতে হলে চারটি skill-এ সমান দক্ষতা দরকার।",sections:[
+{t:"IELTS Band Score Guide",items:[["Band 5.5","Modest user — কিছু ভুল থাকে"],["Band 6.0","Competent user — বেশিরভাগ university ভর্তির জন্য"],["Band 6.5","Good user — Canada, Australia ইমিগ্রেশন"],["Band 7.0+","Very good user — Top university, professional visa"]]},
+{t:"প্রতিটি Section-এর Tips",rules:["Listening: Note নিতে শেখো, keywords শোনো","Reading: Time management — প্রতিটি passage-এ ১৫-২০ মিনিট","Writing Task 1: minimum ১৫০ words","Writing Task 2: minimum ২৫০ words — Introduction+Body+Conclusion","Speaking: Fluency > Accuracy — থামা কমাও"]},
+{t:"অনুশীলন",q:"IELTS Writing Task 2 practice করো:\n'Some people think children should learn to be competitive. Others think co-operation is more important. Discuss both views and give your opinion.'\nসময়: ৪০ মিনিট, minimum ২৫০ words."}
+]},
+"6-4":{intro:"Figurative language ব্যবহার করলে লেখা ও কথা বলা আরও প্রভাবশালী হয়।",sections:[
+{t:"Figurative Language",items:[["Simile — like/as দিয়ে তুলনা","'She sings like an angel.' / 'As busy as a bee'"],["Metaphor — সরাসরি তুলনা","'Life is a journey.' / 'Time is money.'"],["Hyperbole — অতিশয়োক্তি","'I've told you a million times.' / 'I'm so hungry I could eat a horse.'"],["Personification","'The wind whispered.' / 'The sun smiled.'"],["Alliteration","'She sells seashells.' — same sound শুরুতে"],["Onomatopoeia","'The bees buzzed.' / 'The clock ticked.'"]]},
+{t:"Common Metaphors",ex:[["'She has a heart of gold.'","সে খুবই দয়ালু"],["'He is drowning in work.'","সে অনেক কাজে ব্যস্ত"],["'Life is a roller coaster.'","জীবনে উত্থান-পতন আছে"]]},
+{t:"অনুশীলন",q:"সম্পূর্ণ করো (Simile, Metaphor, Personification ব্যবহার করো):\n১. 'Her voice was like...'\n২. 'The city is a...'\n৩. 'Time...'\n৪. 'The rain...'"}
+]},
+"6-5":{intro:"পরিস্থিতি অনুযায়ী ভাষার ধরন পরিবর্তন করতে পারাটাই true language mastery।",sections:[
+{t:"Register-এর তিন স্তর",items:[["Formal (চাকরি, চিঠি, academic)","'I would like to request...' / 'Furthermore...'"],["Semi-formal (email, class, meeting)","'I wanted to let you know...' / 'Could you check this?'"],["Informal (বন্ধু, WhatsApp, social)","'Hey! What's up?' / 'Gonna catch up later?'"]]},
+{t:"Same Meaning, Different Register",ex:[["Formal: 'I apologize for the inconvenience.'","Informal: 'Sorry about that!'"],["Formal: 'I would like to enquire about...'","Informal: 'Can you tell me about...?'"],["Formal: 'Please find attached the document.'","Informal: 'Here's the file.'"]]},
+{t:"অনুশীলন",q:"Informal message টি formal email-এ রূপান্তর করো:\n'Hey boss, gonna be late today coz of traffic. Really sorry. Will get there asap. Plz don't mind.'\n(Professional email format-এ লেখো)"}
+]},
+"6-6":{intro:"বাংলাদেশি শিক্ষার্থীরা যে ভুলগুলো সবচেয়ে বেশি করেন সেগুলো একবার জেনে নিলে সহজে এড়ানো যায়।",sections:[
+{t:"সবচেয়ে Common ভুল",items:[["❌ He go. ✅ He goes.","He/She/It-এর সাথে s/es যোগ হয়"],["❌ I am agree. ✅ I agree.","'agree', 'know', 'like' — linking verb চায় না"],["❌ I have 20 years. ✅ I am 20 years old.","বয়স বলতে 'be' verb"],["❌ I didn't went. ✅ I didn't go.","did + base form — past tense আবার লাগে না"],["❌ He said me. ✅ He told me.","'say' এর পরে 'to', 'tell' এর পরে সরাসরি object"],["❌ Please do the needful. ✅ Please let me know what you need.","Bangladeshi English — native-রা বলে না"]]},
+{t:"Preposition ভুল",rules:["❌ Discuss about → ✅ Discuss (about ছাড়া)","❌ Return back → ✅ Return (back unnecessary)","❌ Cope up with → ✅ Cope with","❌ She is married with → ✅ She is married to"]},
+{t:"অনুশীলন",q:"ভুল সংশোধন করো:\n১. 'He don't know the answer.'\n২. 'I am boring in this class.'\n৩. 'She told that she was sick.'\n৪. 'We discussed about the problem.'\n৫. 'I have seen him yesterday.'"}
+]},
+"6-7":{intro:"এই final phase-এ তুমি যা শিখেছ সব একসাথে ব্যবহার করে নিজেকে confident English user হিসেবে প্রতিষ্ঠিত করবে।",sections:[
+{t:"Self-Assessment",items:[["Reading","যেকোনো English article পড়ে মূল ভাব বুঝতে পারছ?"],["Writing","১ ঘণ্টায় ২৫০+ শব্দের coherent essay লিখতে পারছ?"],["Speaking","৫ মিনিট না থেমে কথা বলতে পারছ?"],["Listening","Native speed-এ ৭০%+ বুঝতে পারছ?"]]},
+{t:"Final Week Challenge",rules:["Day 1: IELTS mock test দাও (সব ৪টি section)","Day 2: ৩ মিনিটের presentation record করো","Day 3: ১টি full essay লেখো (IELTS Task 2)","Day 4: Movie দেখো subtitle ছাড়া","Day 5: AI শিক্ষকের সাথে ১৫ মিনিট pure English-এ কথা বলো","Day 6: সব ৬টি phase review করো","Day 7: Celebrate! তুমি অনেক এগিয়েছ!"]},
+{t:"অনুশীলন",q:"নিজেকে evaluate করো:\n'Write about what you have learned and how English has changed for you.'\n(minimum ২০০ words, AI শিক্ষককে দাও feedback-এর জন্য)"}
+]}
+};
+
+function buildTopicHTML(id) {
+  const c = TC[id];
+  if (!c) return `<div class="sh-section"><p class="sh-text">এই টপিকের বিস্তারিত শীঘ্রই আসছে। AI শিক্ষককে জিজ্ঞেস করো।</p></div>`;
+  let h = `<div class="sh-section"><p class="sh-text">${c.intro}</p></div>`;
+  c.sections.forEach(s => {
+    h += `<div class="sh-section"><div class="sh-sec-title">${s.t}</div>`;
+    if (s.items) s.items.forEach(i => { h += `<div class="example-card"><div class="ex-en">${i[0]}</div><div class="ex-bn">${i[1]}</div></div>`; });
+    if (s.ex) s.ex.forEach(e => { h += `<div class="example-card"><div class="ex-en">${e[0]}</div><div class="ex-bn">${e[1]}</div></div>`; });
+    if (s.rules) h += `<div class="rule-list">${s.rules.map(r=>`<p>${r}</p>`).join('')}</div>`;
+    if (s.q) h += `<div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:10px;padding:12px 14px;margin-top:8px;font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-line">${s.q}</div>`;
+    h += `</div>`;
+  });
+  return h;
+}
+
+// ============================================================
+// TOPIC SHEET
+// ============================================================
+function openTopicSheet(id) {
+  const topic = ALL_TOPICS.find(t=>t.id===id);
+  const phase = PHASES.find(p=>p.id===topic.phase);
+  const saved = stats.practices[id] || '';
+
+  document.getElementById('shIcon').textContent = topic.icon;
+  document.getElementById('shIcon').style.background = phase.bg;
+  document.getElementById('shTitle').textContent = topic.name;
+  document.getElementById('shSub').textContent = `পর্যায় ${phase.id}: ${phase.name} • ${topic.desc}`;
+
+  document.getElementById('shBody').innerHTML = `
+    ${buildTopicHTML(id)}
+    <div class="sh-section" style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px">
+      <div class="sh-sec-title">✍️ অনুশীলন করো — AI-এর সাথে</div>
+      <div style="font-size:12px;color:var(--a3);margin-bottom:8px;font-weight:600">📝 উপরের অনুশীলনের উত্তর এখানে লেখো (সেভ থাকবে):</div>
+      <textarea class="writing-area" id="practiceInput" rows="4" placeholder="এখানে ইংরেজিতে লেখো...">${saved}</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn btn-blue" onclick="checkTopicPractice('${id}')">🤖 AI চেক করো</button>
+        <button class="btn btn-ghost" onclick="savePractice('${id}')">💾 সেভ</button>
+      </div>
+      <div class="ai-practice-box" id="aiPracticeBox"></div>
+    </div>
+    <div class="sh-section" style="margin-top:4px">
+      <button class="btn btn-primary btn-full" onclick="closeSheet();goTab('chat');setTimeout(()=>sendSuggestion('${topic.name} নিয়ে আমাকে practice করাও। প্রশ্ন করো এবং আমার উত্তর দেখে feedback দাও।'),300)">
+        💬 AI শিক্ষকের সাথে "${topic.name}" practice শুরু করো →
+      </button>
+    </div>`;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sheet').scrollTop = 0;
+}
+
+
+function savePractice(id) {
+  const val = document.getElementById('practiceInput').value;
+  stats.practices[id] = val;
+  save();
+  showToast('💾 সেভ হয়ে গেছে!');
+}
+
+async function checkTopicPractice(id) {
+  const text = document.getElementById('practiceInput').value.trim();
+  if (!text) { showToast('⚠️ কিছু লেখো আগে'); return; }
+  const topic = ALL_TOPICS.find(t=>t.id===id);
+  const box = document.getElementById('aiPracticeBox');
+  box.style.display='block'; box.textContent='⏳ চেক করছি...';
+  const reply = await callAI(`টপিক: "${topic.name}"\nশিক্ষার্থীর লেখা: "${text}"\nবাংলায় সংক্ষেপে ফিডব্যাক দাও।`,'তুমি একজন ইংরেজি শিক্ষক। বাংলায় সংক্ষেপে ফিডব্যাক দাও।');
+  box.innerHTML = reply.replace(/\n/g,'<br>');
+  stats.practices[id] = document.getElementById('practiceInput').value;
+  save();
+}
+
+function askAITopic(topicName) {
+  closeSheet();
+  goTab('chat');
+  setTimeout(() => sendSuggestion(`${topicName} সম্পর্কে বিস্তারিত উদাহরণ সহ বোঝাও।`), 200);
+}
+
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function goTab(tabId) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn, .bnav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(b=>b.classList.add('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>goTab(b.dataset.tab)));
+document.querySelectorAll('[data-gotab]').forEach(b=>b.addEventListener('click',()=>goTab(b.dataset.gotab)));
+
+// ============================================================
+// AI API
+// ============================================================
+const SYS_PROMPT = `তুমি একজন বাংলাভাষী Expert ইংরেজি শিক্ষক। শিক্ষার্থী intermediate level-এর।
+নিয়মঃ
+- বাংলায় ব্যাখ্যা করো, ইংরেজি উদাহরণ দাও
+- সিলেবাস অনুযায়ী পড়াতে সাহায্য করো (Foundation → Reading → Writing → Speaking → Listening → Advanced)
+- Writing, Speaking, Listening, Grammar সব বিষয়ে সাহায্য করো
+- ভুল ধরো, সংশোধন করো, উৎসাহ দাও
+- সংক্ষিপ্ত কিন্তু কার্যকর উত্তর দাও
+- ইমোজি স্বাভাবিকভাবে ব্যবহার করো`;
+
+async function callAI(userMsg, customSys) {
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: customSys || SYS_PROMPT,
+        messages: chatHistory.length > 0 ? chatHistory : [{role:'user',content:userMsg}]
+      })
+    });
+    const data = await res.json();
+    return data.content?.[0]?.text || 'দুঃখিত, আবার চেষ্টা করো।';
+  } catch {
+    return '😔 সংযোগে সমস্যা হলো। আবার চেষ্টা করো।';
+  }
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+function sendSuggestion(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+function suggestFromSyllabus() {
+  const nextTopic = ALL_TOPICS.find(t=>!completed.includes(t.id));
+  if (nextTopic) {
+    setTimeout(()=>sendSuggestion(`${nextTopic.name} নিয়ে পড়াও, উদাহরণ দাও।`),300);
+  }
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const box = document.getElementById('chatBox');
+  appendMsg('user', text);
+  chatHistory.push({role:'user',content:text});
+  input.value=''; input.style.height='auto';
+
+  // typing
+  const tid = 'ty-'+Date.now();
+  const d = document.createElement('div');
+  d.id=tid; d.className='msg ai';
+  d.innerHTML=`<div class="msg-av">👩‍🏫</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
+
+  // keep chatHistory trimmed
+  if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS_PROMPT,messages:chatHistory})
+  });
+  const data = await res.json();
+  const reply = data.content?.[0]?.text || '😔 দুঃখিত, আবার চেষ্টা করো।';
+
+  document.getElementById(tid)?.remove();
+  appendMsg('ai', reply);
+  chatHistory.push({role:'assistant',content:reply});
+  stats.sessions++; save(); updateProgress();
+}
+
+function appendMsg(role, text) {
+  const box = document.getElementById('chatBox');
+  const d = document.createElement('div');
+  d.className='msg '+role;
+  d.innerHTML=`<div class="msg-av">${role==='ai'?'👩‍🏫':'😊'}</div><div class="bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
+}
+
+// ============================================================
+// VOCAB
+// ============================================================
+let wordIdx = stats.wordIdx || 0;
+
+function loadNewWord() {
+  wordIdx = (wordIdx+1) % VOCAB_WORDS.length;
+  stats.wordIdx = wordIdx; stats.words++; save(); updateProgress();
+  const w = VOCAB_WORDS[wordIdx];
+  document.getElementById('wWord').textContent = w.word;
+  document.getElementById('wType').textContent = w.type;
+  document.getElementById('wMeaning').textContent = '🇧🇩 '+w.bn;
+  document.getElementById('wExample').textContent = w.ex;
+  showToast('📖 নতুন শব্দ শিখলে!');
+}
+
+function speakWord() { speak(VOCAB_WORDS[wordIdx].word); }
+
+function askAIAboutWord() {
+  const w = VOCAB_WORDS[wordIdx];
+  goTab('chat');
+  setTimeout(()=>sendSuggestion(`"${w.word}" শব্দটি সম্পর্কে বিস্তারিত বলো — উচ্চারণ, অর্থ, ব্যবহার এবং ৩টি উদাহরণ বাক্য।`),200);
+}
+
+async function checkVocab() {
+  const text = document.getElementById('vocabPractice').value.trim();
+  if(!text){showToast('⚠️ একটি বাক্য লেখো');return;}
+  const w = VOCAB_WORDS[wordIdx];
+  const fb = document.getElementById('vocabFeedback');
+  fb.style.display='block'; fb.textContent='⏳ চেক করছি...';
+  const r = await callAI(`শব্দ: "${w.word}"\nবাক্য: "${text}"\nবাংলায় ফিডব্যাক দাও।`,'তুমি একজন ইংরেজি শিক্ষক।');
+  fb.innerHTML=r.replace(/\n/g,'<br>');
+  stats.words++; save(); updateProgress();
+}
+
+function saveVocabPractice() {
+  const val = document.getElementById('vocabPractice').value;
+  const w = VOCAB_WORDS[wordIdx];
+  stats.practices['vocab-'+wordIdx] = val;
+  save(); showToast('💾 সেভ হয়েছে!');
+}
+
+async function loadTopicVocab(topic) {
+  const el = document.getElementById('topicVocabResult');
+  el.textContent='⏳ লোড হচ্ছে...';
+  const r = await callAI(`"${topic}" বিষয়ে ৮টি কার্যকর ইংরেজি শব্দ বাংলা অর্থসহ দাও। Format: Word — অর্থ`,'তুমি একজন ইংরেজি শিক্ষক। শুধু তালিকা দাও।');
+  el.innerHTML = r.replace(/\n/g,'<br>');
+  stats.words+=8; save(); updateProgress();
+}
+
+// ============================================================
+// WRITING
+// ============================================================
+let promptIdx = stats.promptIdx || 0;
+let translateIdx = stats.translateIdx || 0;
+
+function newWritingPrompt() {
+  promptIdx=(promptIdx+1)%WRITING_PROMPTS.length;
+  stats.promptIdx=promptIdx; save();
+  document.getElementById('writingPrompt').textContent=WRITING_PROMPTS[promptIdx];
+  document.getElementById('writingText').value='';
+  document.getElementById('writingFeedback').style.display='none';
+}
+
+function newTranslate() {
+  translateIdx=(translateIdx+1)%TRANSLATE_PROMPTS.length;
+  stats.translateIdx=translateIdx; save();
+  document.getElementById('translatePrompt').textContent=TRANSLATE_PROMPTS[translateIdx];
+  document.getElementById('translateText').value='';
+  document.getElementById('translateFeedback').style.display='none';
+}
+
+async function checkWriting() {
+  const text=document.getElementById('writingText').value.trim();
+  if(!text){showToast('⚠️ কিছু লেখো');return;}
+  const fb=document.getElementById('writingFeedback');
+  fb.style.display='block'; fb.textContent='⏳ AI চেক করছে...';
+  const r=await callAI(`বিষয়: "${WRITING_PROMPTS[promptIdx]}"\nলেখা: "${text}"\nGrammar, vocabulary, structure বিশ্লেষণ করো। বাংলায় ফিডব্যাক দাও।`,'তুমি একজন ইংরেজি শিক্ষক।');
+  fb.innerHTML=r.replace(/\n/g,'<br>');
+  // save writing
+  stats.practices['writing-'+promptIdx]=text; save();
+}
+
+async function checkTranslation() {
+  const text=document.getElementById('translateText').value.trim();
+  if(!text){showToast('⚠️ অনুবাদ লেখো');return;}
+  const fb=document.getElementById('translateFeedback');
+  fb.style.display='block'; fb.textContent='⏳ চেক করছি...';
+  const r=await callAI(`বাংলা: "${TRANSLATE_PROMPTS[translateIdx]}"\nঅনুবাদ: "${text}"\nতুলনা করো, বাংলায় ফিডব্যাক দাও।`,'তুমি একজন ইংরেজি শিক্ষক।');
+  fb.innerHTML=r.replace(/\n/g,'<br>');
+}
+
+// ============================================================
+// GRAMMAR
+// ============================================================
+async function checkGrammar() {
+  const text=document.getElementById('grammarInput').value.trim();
+  if(!text){showToast('⚠️ একটি বাক্য লেখো');return;}
+  const fb=document.getElementById('grammarFeedback');
+  fb.style.display='block'; fb.textContent='⏳ Grammar চেক করছি...';
+  const r=await callAI(`বাক্য: "${text}"\nGrammar ভুল ধরো, সংশোধন করো, বাংলায় ব্যাখ্যা দাও।`,'তুমি একজন ইংরেজি grammar বিশেষজ্ঞ।');
+  fb.innerHTML=r.replace(/\n/g,'<br>');
+}
+
+async function explainGrammar() {
+  const text=document.getElementById('grammarInput').value.trim();
+  if(!text){showToast('⚠️ একটি বাক্য লেখো');return;}
+  goTab('chat');
+  setTimeout(()=>sendSuggestion(`এই বাক্যটি বিশ্লেষণ করো: "${text}"`),200);
+}
+
+// ============================================================
+// LISTENING
+// ============================================================
+function speakListen() {
+  const s=LISTEN_SENTENCES[currentListenIdx];
+  document.getElementById('listenText').textContent='🔊 শুনছো...';
+  speak(s,1);
+  setTimeout(()=>{document.getElementById('listenText').textContent='🎧 শুনে লেখো';},2500);
+}
+
+function speakSlow() { speak(LISTEN_SENTENCES[currentListenIdx],0.6); }
+
+function nextListen() {
+  currentListenIdx=(currentListenIdx+1)%LISTEN_SENTENCES.length;
+  stats.listenIdx=currentListenIdx; save();
+  document.getElementById('listenText').textContent='🎧 নতুন বাক্য — শোনো!';
+  document.getElementById('listenAnswer').value='';
+  document.getElementById('listenResult').textContent='';
+  document.getElementById('revealBtn').style.display='none';
+}
+
+function checkListening() {
+  const answer=document.getElementById('listenAnswer').value.trim().toLowerCase();
+  const correct=LISTEN_SENTENCES[currentListenIdx].toLowerCase();
+  const res=document.getElementById('listenResult');
+  const sim=answer.split(' ').filter(w=>correct.includes(w)).length/correct.split(' ').length;
+  if(answer===correct){res.innerHTML='✅ একদম সঠিক! দারুণ হয়েছে! 🎉';}
+  else if(sim>0.6){res.innerHTML='👍 প্রায় সঠিক! ছোট ভুল আছে।';document.getElementById('revealBtn').style.display='inline-block';}
+  else{res.innerHTML='❌ মিলেনি। আবার শোনার চেষ্টা করো।';document.getElementById('revealBtn').style.display='inline-block';}
+}
+
+function revealAnswer() {
+  document.getElementById('listenText').textContent=LISTEN_SENTENCES[currentListenIdx];
+  document.getElementById('listenResult').innerHTML+='<br>📖 সঠিক উত্তর: "'+LISTEN_SENTENCES[currentListenIdx]+'"';
+}
+
+function speak(text, rate=1) {
+  if(!('speechSynthesis' in window)){showToast('⚠️ Browser সাপোর্ট নেই');return;}
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=rate;
+  window.speechSynthesis.speak(u);
+}
+
+// ============================================================
+// BUILD WEEKLY
+// ============================================================
+function buildWeekly() {
+  const today = new Date().getDay(); // 0=Sun
+  const dayMap = {6:0,0:1,1:2,2:3,3:4,4:5,5:6}; // শনি=6, রবি=0...
+  const todayIdx = dayMap[today] ?? 0;
+  const c = document.getElementById('weeklyContainer');
+  c.innerHTML = WEEKLY_PLAN.map((d,i) => `
+    <div class="day-card ${i===todayIdx?'today':''}">
+      <div class="day-hdr">
+        <div class="day-num" style="background:${d.bg};color:${d.color}">${d.day}</div>
+        <div><div class="day-title">${d.title}</div><div class="day-time">⏱ ${d.time}</div></div>
+        ${i===todayIdx?'<div class="day-today-tag">আজ</div>':''}
+      </div>
+      <div class="day-tasks">${d.tasks.map(t=>`<div class="day-task">${t}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ============================================================
+// RESTORE STATE
+// ============================================================
+function restoreState() {
+  // word
+  const w=VOCAB_WORDS[wordIdx];
+  if(w){
+    document.getElementById('wWord').textContent=w.word;
+    document.getElementById('wType').textContent=w.type;
+    document.getElementById('wMeaning').textContent='🇧🇩 '+w.bn;
+    document.getElementById('wExample').textContent=w.ex;
+  }
+  // writing prompt
+  document.getElementById('writingPrompt').textContent=WRITING_PROMPTS[promptIdx];
+  // translate
+  document.getElementById('translatePrompt').textContent=TRANSLATE_PROMPTS[translateIdx];
+  // listen
+  document.getElementById('listenText').textContent='🎧 নিচের বাটন চাপো';
+  // restore saved writing
+  const savedW=stats.practices['writing-'+promptIdx];
+  if(savedW) document.getElementById('writingText').value=savedW;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildSyllabus();
+buildWeekly();
+restoreState();
+updateProgress();
+updateStreak();
+</script>
+</body>
+</html>
